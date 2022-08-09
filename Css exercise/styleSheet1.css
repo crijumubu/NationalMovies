@@ -1,0 +1,105 @@
+/*TAGS PROPERTIES*/
+
+body {
+    font-family: "Lucida Sans", Verdana;
+    line-height: 170%;
+    margin: 2%;
+}
+
+header{
+    color: white;
+    background: #04aa6d;
+    border-radius: 5px;
+}
+
+header h1 {
+    padding: 2% 0 0 2%;
+    margin-bottom: 0.5%;
+}
+
+header p {
+    margin-top: 0.5%;
+    padding: 0 0 2% 2%;
+}
+
+aside{
+    background: #32a4e7;
+    color: white;
+    grid-column: 3/4;
+    grid-row: 1/3;
+    height: 100%;
+    width: 100%;
+    align-self: start;
+    justify-self: end;
+    position: relative;
+    border-radius: 5px;
+    padding: 5% 3% 0 5%;
+    margin: 0 0 2% 0;
+}
+
+ul{
+    padding: 0;
+    list-style-type: none;
+}
+
+li{
+    padding-left: 3%;
+    background: #f1f1f1;
+    border: 1px solid #d4d4d4;
+    border-radius: 3px;
+    width: 100%;
+    margin-bottom: 1.5%;
+
+}
+
+li:hover{
+    background: white;
+}
+
+a{
+    color: black;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+footer{
+    margin: 2% 0;
+    border: 1px solid #d4d4d4;
+    border-radius: 3px;
+    line-height: 170%;
+    background: #f1f1f1;
+    text-align: center;
+    font-size: 10px;
+}
+
+/*IDS PROPERTIES*/
+
+#container{
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+}
+
+#options{
+    margin-left: 0;
+    grid-column: 1/2;
+    width: 17%;
+    position: absolute;
+}
+
+#style1{
+    background: #04aa6d;
+    color: white;
+    font-weight: bold;
+}
+
+#styleContent{
+    margin-right: 5%;
+    grid-column: 2/3;
+}
+
+#noStyleContent{
+    margin-right: 5%;
+    grid-column: 2/3;
+}

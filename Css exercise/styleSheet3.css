@@ -1,0 +1,66 @@
+/*TAGS PROPERTIES*/
+
+body{
+    font-family: Verdana, serif;
+    line-height: 175%;
+}
+
+aside{
+    border: 1px solid #d4d4d4;
+    background-color: #f1f1f1;
+    padding: 1% 2%;
+}
+
+ul{
+    padding-left: 0;
+    list-style-type: none;
+}
+ul li{
+    text-align: center;
+    width: 15%;
+    color: white;
+    padding: 0.5% 4%;
+    margin: 0.5%;
+    background: #555555;
+    display: inline-block;
+}
+
+li:hover{
+    background: black !important;
+}
+
+a{
+    color: black;
+}
+
+a:hover{
+    color: #4caf50;
+}
+
+footer{
+    padding: 0 3%;
+    line-height: 165%;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* IDS PROPERTIES */
+
+#container{
+    display: grid;
+}
+
+#options{
+    grid-row: 1/2;
+    margin-top: 0;
+}
+
+#style3{
+    background: #04aa6d;
+}
+
+/*CLASSES PROPERTIES*/
+
+.htitle{
+    color: #4caf50;
+}

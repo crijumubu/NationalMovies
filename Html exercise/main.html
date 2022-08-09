@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="../../../../Working%20files/Cristian%20Julian%20Munoz%20Buenahora/HTML%20-%20FORMs/index.js" method="get">
+        <label for="id">Identificador</label><br>
+        <input type="number" name="id" id="id" max="99999999999999999999"><br>
+
+        <label for="name">Nombres</label><br>
+        <input type="text" name="name" id="name" maxlength="80"><br>
+
+        <label for="surname">Apellidos</label><br>
+        <input type="text" name="surname" id="surname" maxlength="80"><br>
+
+        <label for="mainstreet">Dirección</label><br>
+        <select id="mainstreet">
+            <option value="Calle">Calle</option>
+            <option value="Carrera">Carrera</option>
+            <option value="Avenida">Avenida</option>
+        </select>
+        <input type="text" id="neighbordhood" name="neighbordhood" value="Edificio/barrio">
+        <input type="text" id="municipality" name="municipality" value="Municipio"><br>
+
+        <label for="datebirth">Fecha de nacimiento</label><br>
+        <input type="date" name="datebirth" id="datebirth"><br>
+
+        <label for="from">Lugar de nacimiento</label><br>
+
+        <input id="from" type="text" list="city" name="city">
+        <datalist id="city">
+            <option value="Bucaramanga">
+            <option value="Medellín">
+            <option value="Cali">
+            <option value="Bogotá">
+            <option value="Barranquilla">
+            <option value="Quibdo">
+            <option value="Leticia">
+            <option value="Valledupar">
+            <option value="San gil">
+            <option value="Manizales">
+        </datalist>
+
+        <input type="text" list="department" name="department">
+        <datalist id="department">
+            <option value="Santander">
+            <option value="Antioquia">
+            <option value="Valle del cauca">
+            <option value="Bogotá">
+            <option value="Atlantico">
+            <option value="Choco">
+            <option value="Amazonas">
+            <option value="Cesar">
+            <option value="Nariño">
+            <option value="Pasto">
+        </datalist>
+
+        <input type="text" list="country" name="country">
+        <datalist id="country">
+            <option value="Colombia">
+            <option value="Estados unidos">
+            <option value="Canadá">
+            <option value="Nueva zelanda">
+            <option value="Suecia">
+            <option value="Suiza">
+            <option value="Francia">
+            <option value="España">
+            <option value="Inglaterra">
+            <option value="México">
+        </datalist><br>
+
+        <label for="email">Correo electrónico</label><br>
+        <input type="email" name="email" id="email"><br>
+
+        <label for="university">Universidad</label><br>
+        <input type="text" list="university" name="university">
+        <datalist id="university">
+            <option value="UIS">
+            <option value="UNAB">
+            <option value="UPB">
+            <option value="UTS">
+            <option value="USTA">
+            <option value="UCC">
+            <option value="UMB">
+            <option value="UPTC">
+            <option value="EAFIT">
+            <option value="ICESI">
+        </datalist><br>
+
+        <label for="university">Facultad</label><br>
+        <input type="text" list="faculty" name="faculty">
+        <datalist id="faculty">
+            <option value="Sistemas">
+            <option value="Psicología">
+            <option value="Diseño">
+            <option value="Negocios">
+            <option value="Civil">
+            <option value="Industrial">
+            <option value="Economía">
+            <option value="Ambiental">
+            <option value="Electrónica">
+            <option value="Electrica">
+        </datalist><br>
+
+        <label>Vinculación</label><br>
+        <input type="radio" id="teacher" name="teacher" value="Docente">
+        <label for="teacher">Docente</label><br>
+        <input type="radio" id="student" name="student" value="Estudiante">
+        <label for="student">Estudiante</label><br>
+        <input type="radio" id="admin" name="admin" value="Administrativo">
+        <label for="admin">Administrativo</label><br>
+
+        <label for="biography">Biografía</label><br>
+        <textarea id="biography" name="biography" maxlength="500"></textarea><br>
+
+        <input type="submit" value="Enviar">
+
+    </form>
+</body>
+</html>

@@ -1,0 +1,84 @@
+/*TAGS PROPERTIES*/
+
+body{
+    font-family: "Courier New", serif;
+    background: black;
+    color:#84c754;
+    line-height: 175%;
+    margin: 3%;
+}
+
+header h1{
+    margin-bottom: 0.15%;
+}
+
+header p {
+    margin-top: 0.15%;
+}
+
+aside {
+    margin-right: 3%;
+    padding: 0.5% 0.5% 0.5% 1.5%;
+    right: 0;
+    display: block;
+    width: 42.5%;
+    position: absolute;
+    border: 1px solid white;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 150%;
+    min-width: 400px;
+    max-width: 400px;
+}
+
+li:hover{
+    color: white;
+}
+
+a:hover{
+    color:#84c754;
+}
+
+footer{
+    color: white;
+    font-size: 11px;
+    padding: 1%;
+    border: 1px solid white;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 150%;
+}
+
+/*IDS PROPERTIES*/
+
+#container{
+    display: grid;
+    grid-template-columns: 50%;
+}
+
+#options{
+    grid-column: 1/2;
+    position: absolute;
+    display: block;
+}
+
+#style4{
+    font-weight: bold;
+    color: white;
+}
+
+#styleContent{
+    margin-top: 175px;
+    grid-column: 1/3;
+}
+
+#noStyleContent{
+    grid-column: 1/3;
+    margin-bottom: 4%;
+}
+
+/*CLASSES PROPERTIES*/
+
+.colorContent{
+    color: white;
+}

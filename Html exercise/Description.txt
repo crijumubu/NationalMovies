@@ -1,0 +1,13 @@
+FORMULARIO DE REGISTRO
+
+id[máx 20 char]
+nombres [máx 80 char]
+apellidos [máx 80 char]
+dirección (calle/carrera/avenida… + edificio/barrio + municipio)
+fecha de nacimiento (día/mes/año)
+lugar de nacimiento (ciudad + municipio + departamento + país)
+email
+Universidad (Colombia, si no está en lista opción para agregar)
+Facultad (Colombia, si no está en lista opción para agregar)
+vinculación (docente/estudiante/administrativo)
+biografía (máx. 500 caracteres)

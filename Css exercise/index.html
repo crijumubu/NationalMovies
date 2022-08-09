@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Introduction</title>
+    <link rel="stylesheet" href="styleSheet1.css">
+</head>
+<body>
+    <header>
+        <h1 class="htitle">Welcome to My Homepage</h1>
+        <p>Use the menu to select different Stylesheets</p>
+    </header>
+
+    <div id="container">
+
+        <div id="styleContent">
+            <h1 class="htitle">Same Page Different Stylesheets</h1>
+            <p>This is a demonstration of how different stylesheets can change the layout of your HTML page. You can change the layout of this page by selecting different stylesheets in the menu, or by selecting one of the following links: <br>
+                <a class="colorContent" href="#" onclick="reStyle(1);return false">Stylesheet1</a>,
+                <a class="colorContent" href="#" onclick="reStyle(2);return false">Stylesheet2</a>,
+                <a class="colorContent" href="#" onclick="reStyle(3);return false">Stylesheet3</a>,
+                <a class="colorContent" href="#" onclick="reStyle(4);return false">Stylesheet4</a>.
+            </p>
+        </div>
+
+        <div id="options">
+            <ul>
+                <li id="style1">Stylesheet 1</li>
+                <li id="style2">Stylesheet 2</li>
+                <li id="style3">Stylesheet 3</li>
+                <li id="style4">Stylesheet 4</li>
+                <li id="style5">No Stylesheet</li>
+            </ul>
+        </div>
+
+        <div id="noStyleContent">
+            <h2 class="htitle">No Styles</h2>
+            <p>This page uses DIV elements to group different sections of the HTML page. Click here to see how the page looks like with no stylesheet:<br>
+                <a class="colorContent" href="#" onclick="noStyle();return false">No Stylesheet</a>.
+            </p>
+        </div>
+
+        <aside>
+            <h3 class="htitle colorContent">Side-Bar</h3>
+            <p class="colorContent">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+        </aside>
+    </div>
+
+    <footer>
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+    </footer>
+
+</body>
+</html>
