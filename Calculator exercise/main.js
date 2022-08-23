@@ -121,7 +121,6 @@ for (let i = 0 ; i < listOperationsButtons.length; i++){
 
                     if (secondNumber != 0 && firstNumber != 0){
                         let result = calculator(currentOperation);
-                        console.log(firstNumber + ' ' + secondNumber)
                         display.innerHTML = result.toString();
                         firstNumber = result;
                     }
