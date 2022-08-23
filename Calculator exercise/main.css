@@ -27,6 +27,7 @@
     font-size: 30px;
 }
 .result{
+    overflow-x: scroll;
     text-align: right;
 }
 .result p{

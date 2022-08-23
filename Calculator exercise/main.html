@@ -17,7 +17,7 @@
         </div>
 
         <div class="result">
-            <p>0</p>
+            <p id="display">0</p>
         </div>
 
         <div class="options">
@@ -34,40 +34,42 @@
         </div>
 
         <div class="buttons">
-            <button type="button" class="operations">%</button>
-            <button type="button" class="operations">&radic;</button>
-            <button type="button" class="operations">
+            <button type="button" id="percentage"  class="operations">%</button>
+            <button type="button" id="square root" class="operations">&radic;</button>
+            <button type="button" id="power" class="operations">
                     <span class="pItalic">x<sup>2</sup></span>
             </button>
-            <button type="button" class="operations">
+            <button type="button" id="fraction"  class="operations">
                     <span class="pItalic">1/x</span>
             </button>
 
-            <button type="button" class="operations">CE</button>
-            <button type="button" class="operations">C</button>
-            <button type="button" class="operations">DEL</button>
-            <button type="button" class="operations">&divide;</button>
+            <button type="button" id="clearEntry"  class="operations">CE</button>
+            <button type="button" id="clear"  class="operations">C</button>
+            <button type="button" id="delete"  class="operations">DEL</button>
+            <button type="button" id='divide' class="operations">&divide;</button>
 
             <button type="button" class="numbers">7</button>
             <button type="button" class="numbers">8</button>
             <button type="button" class="numbers">9</button>
-            <button type="button" class="operations">&times;</button>
+            <button type="button" id="multiply" class="operations">&times;</button>
 
             <button type="button" class="numbers">4</button>
             <button type="button" class="numbers">5</button>
             <button type="button" class="numbers">6</button>
-            <button type="button" class="operations">&minus;</button>
+            <button type="button" id="subtract"  class="operations">&minus;</button>
 
             <button type="button" class="numbers">1</button>
             <button type="button" class="numbers">2</button>
             <button type="button" class="numbers">3</button>
-            <button type="button" class="operations">&plus;</button>
+            <button type="button" id="add" class="operations">&plus;</button>
 
-            <button type="button" class="operations">&plusmn;</button>
+            <button type="button" id="changeSign"  class="operations">&plusmn;</button>
             <button type="button" class="numbers">0</button>
-            <button type="button" class="operations">&#8729;</button>
-            <button type="submit" class="operations">&equals;</button>
+            <button type="button" id="decimal" class="operations">&#8729;</button>
+            <button type="submit" id="equal" class="operations">&equals;</button>
         </div>
     </div>
+
+    <script src="main.js"></script>
 </body>
 </html>
