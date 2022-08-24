@@ -27,7 +27,8 @@
     font-size: 30px;
 }
 .result{
-    overflow-x: scroll;
+    overflow-x: auto;
+    overflow-y: hidden;
     text-align: right;
 }
 .result p{
@@ -75,4 +76,23 @@
 .numbers{
     border: none;
     background: #FBFBFB;
+}
+
+::-webkit-scrollbar {
+    height: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: #EBEBEB;
+    margin: 0 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border: 20px solid transparent;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

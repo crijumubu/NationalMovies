@@ -4,6 +4,7 @@ let listNumberButtons = document.getElementsByClassName('numbers');
 let listOperationsButtons = document.getElementsByClassName('operations');
 
 let afterOperand = false;
+let dot = false;
 
 let firstNumber = 0;
 let secondNumber = 0;
@@ -54,6 +55,7 @@ for (let i = 0 ; i < listOperationsButtons.length; i++){
                 firstNumber = parseFloat(display.innerText);
                 display.innerHTML = '0'.toString();
                 secondNumber = 0;
+                dot = false;
                 break;
 
             case 'clear':
@@ -61,6 +63,7 @@ for (let i = 0 ; i < listOperationsButtons.length; i++){
                 firstNumber = 0;
                 secondNumber = 0;
                 currentOperation = -1;
+                dot = false;
                 break;
 
             case 'delete':
@@ -88,6 +91,7 @@ for (let i = 0 ; i < listOperationsButtons.length; i++){
 
                 currentOperation = 1;
                 afterOperand = true;
+                dot = false;
                 break;
 
             case 'multiply': //Operation 2
@@ -105,6 +109,7 @@ for (let i = 0 ; i < listOperationsButtons.length; i++){
 
                 currentOperation = 2;
                 afterOperand = true;
+                dot = false;
                 break;
 
             case 'subtract': //Operation 3
@@ -123,10 +128,12 @@ for (let i = 0 ; i < listOperationsButtons.length; i++){
                         let result = calculator(currentOperation);
                         display.innerHTML = result.toString();
                         firstNumber = result;
+                        secondNumber = 0;
                     }
 
                     currentOperation = 3;
                     afterOperand = true;
+                    dot = false;
                 }
                 break;
 
@@ -152,17 +159,23 @@ for (let i = 0 ; i < listOperationsButtons.length; i++){
                 break;
 
             case 'decimal':
-                display.innerHTML += '.';
-                afterOperand = false;
+                if (!dot){
+                    display.innerHTML += '.';
+                    afterOperand = false;
+                    dot = true;
+                }
                 break;
 
             case 'equal':
                 if (!afterOperand){
-                    secondNumber = parseFloat(display.innerText);
-                    display.innerHTML = calculator(currentOperation).toString();
-                    afterOperand = true;
-                    firstNumber = 0;
-                    secondNumber = 0;
+                    if (firstNumber != 0){
+                        secondNumber = parseFloat(display.innerText);
+                        display.innerHTML = calculator(currentOperation).toString();
+                        afterOperand = true;
+                        dot = false;
+                        firstNumber = 0;
+                        secondNumber = 0;
+                    }
                 }
                 break;
         }
