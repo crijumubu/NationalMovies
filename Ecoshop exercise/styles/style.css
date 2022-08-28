@@ -1,0 +1,53 @@
+/*Color palette
+
+Green
+
+#006414
+#009929
+#5ccb5f
+
+Red
+
+#e80729
+#ef2947
+
+Yellow
+
+#efa229
+#f3b24a
+*/
+
+body{
+    height: 100%;
+}
+
+.mainGrid{
+    display: grid;
+    grid-template-rows: 150px 50px 600px 200px;
+    width: 100%;
+    height: 100%;
+}
+
+#displayIcon{
+    grid-row: 1/2;
+    display: block;
+    margin: 3% auto 0 auto;
+    width: 50%;
+}
+
+.navGrid{
+    grid-row: 2/3;
+    display: grid;
+    grid-template-columns: 70% 10% 10% 10%;
+}
+
+#searchProduct{
+    grid-column: 1/2;
+    height: 90%;
+    padding-left: 20px;
+    margin: 0 3%;
+    color: #888988;
+    border: 1px solid #a7b603;
+    border-radius: 30px;
+
+}
