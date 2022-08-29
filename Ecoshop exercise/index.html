@@ -7,7 +7,7 @@
     <title>Ecotienda</title>
     <link rel="stylesheet" href="styles/bootstrap.min.css">
     <link rel="stylesheet" href="styles/style.css">
-    <link rel="icon" type="image/png" href="images/icon.png"/>
+    <link rel="icon" type="image/png" href="images/icons/icon.png"/>
 </head>
 
 <body>
@@ -15,16 +15,25 @@
     <div class="mainGrid">
 
         <header>
-            <img id="displayIcon" src="images/displayIcon.png" alt="mainLogo">
+            <img id="displayIcon" src="images/icons/displayIcon.png" alt="mainLogo">
         </header>
 
         <nav class="navGrid">
-            <input type="search" id="searchProduct" value="¿Qué producto estás buscando?">
+            <form action="/" method="GET" class="form">
+                <input type="search" id="searchProduct" value="¿Qué producto estás buscando?">
+            </form>
             <div>
-                <i class="fas fa-heart"></i>
+                <img class='headerIcons' src="images/icons/heart.png" alt="favoritos">
+                <p class="headerDescription">Mis favoritos</p>
             </div>
-            <div></div>
-            <div></div>
+            <div>
+                <img class='headerIcons' src="images/icons/profile.png" alt="perfil">
+                <p class="headerDescription">Mi cuenta</p>
+            </div>
+            <div>
+                <img class='headerIcons' src="images/icons/shopping.png" alt="carrito">
+                <p class="headerDescription">Mi carrito</p>
+            </div>
         </nav>
 
         <aside>
