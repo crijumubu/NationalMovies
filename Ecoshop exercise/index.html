@@ -20,7 +20,7 @@
                 <img class="imgIcon" src="images/icons/displayIcon.jpg" alt="mainLogo">
             </header>
 
-            <form action="/" method="GET" class="form">
+            <form action="/" method="GET" class="searchForm">
                 <input type="search" class="searchProduct" placeholder="¿Qué producto estás buscando?">
                 <button class="searchSubmit" type="submit">
                     <img class="submitIcon" src="images/icons/search.png">
@@ -44,27 +44,35 @@
             <div class="rightnavSpace"></div>
         </nav>
 
-        <aside>
-
-        </aside>
-
-        <div class="gridCatalog">
-
-            <div class="product"></div>
-            <div class="product"></div>
-            <div class="product"></div>
-            <div class="product"></div>
-
-            <div class="product"></div>
-            <div class="product"></div>
-            <div class="product"></div>
-            <div class="product"></div>
-
-            <div class="product"></div>
-            <div class="product"></div>
-            <div class="product"></div>
-            <div class="product"></div>
-
+        <div class="contentGrid">
+            <aside>
+                <form form action="/" method="GET" class="filterForm">
+                    <h3>Precio</h3>
+                    <input class="inputRange" type="range" name="vol" min="0" max="50">
+                    <label class="label">DESDE <input class="lowerRange" type="number" name="lowerRange"></label>
+                    <label class="label upperRangeLabel">HASTA <input class="upperRange" type="number" name="upperRange"></label>
+                    <button type="submit" class="filterSubmit">Filtrar</button>
+                </div>
+            </aside>
+    
+            <div class="gridCatalog">
+    
+                <div class="product"></div>
+                <div class="product"></div>
+                <div class="product"></div>
+                <div class="product"></div>
+    
+                <div class="product"></div>
+                <div class="product"></div>
+                <div class="product"></div>
+                <div class="product"></div>
+    
+                <div class="product"></div>
+                <div class="product"></div>
+                <div class="product"></div>
+                <div class="product"></div>
+    
+            </div>
         </div>
 
         <footer>
