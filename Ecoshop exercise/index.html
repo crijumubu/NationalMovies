@@ -5,9 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecotienda</title>
-    <link rel="stylesheet" href="styles/bootstrap.min.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="icon" type="image/png" href="images/icons/icon.jpg"/>
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    
 </head>
 
 <body>
@@ -23,54 +25,334 @@
             <form action="/" method="GET" class="searchForm">
                 <input type="search" class="searchProduct" placeholder="¿Qué producto estás buscando?">
                 <button class="searchSubmit" type="submit">
-                    <img class="submitIcon" src="images/icons/search.png">
+                    <i class="bi bi-search iconGreen"></i>
                 </button>
             </form>
 
-            <div class="options">
-                <img class='headerIcons' src="images/icons/heart.png" alt="favoritos">
-                <p class="headerDescription">Mis favoritos</p>
-            </div>
-
-            <div class="options">
-                <img class='headerIcons' src="images/icons/profile.png" alt="perfil">
-                <p class="headerDescription">Mi cuenta</p>
-            </div>
-
-            <div class="options">
-                <img class='headerIcons' src="images/icons/shopping.png" alt="carrito">
-                <p class="headerDescription">Mi carrito</p>
-            </div>
+            <table>
+                <tr class="icons">
+                    <th><i class="bi bi-heart iconGreen"></i></th>
+                    <th><i class="bi bi-person-circle iconGreen"></i></th>
+                    <th><i class="bi bi-basket3 iconGreen"></i></th>
+                </tr>
+                <tr class="iconsDescription">
+                    <th>Mis favoritos</th>
+                    <th>Mi cuenta</th>
+                    <th>Mi carrito</th>
+                </tr>
+            </table>
             <div class="rightnavSpace"></div>
         </nav>
 
         <div class="contentGrid">
-            <aside>
-                <form form action="/" method="GET" class="filterForm">
-                    <h3>Precio</h3>
-                    <input class="inputRange" type="range" name="vol" min="0" max="50">
-                    <label class="label">DESDE <input class="lowerRange" type="number" name="lowerRange"></label>
-                    <label class="label upperRangeLabel">HASTA <input class="upperRange" type="number" name="upperRange"></label>
-                    <button type="submit" class="filterSubmit">Filtrar</button>
-                </div>
-            </aside>
+            <form form action="/" method="GET" class="filterForm">
+                <h3>Precio</h3>
+                <input class="inputRange" type="range" name="vol" min="0" max="50">
+                <label class="label">DESDE <input class="lowerRange" type="number" name="lowerRange"></label>
+                <label class="label upperRangeLabel">HASTA <input class="upperRange" type="number" name="upperRange"></label>
+                <button type="submit" class="filterSubmit">Filtrar</button>
+            </form>
     
             <div class="gridCatalog">
     
-                <div class="product"></div>
-                <div class="product"></div>
-                <div class="product"></div>
-                <div class="product"></div>
-    
-                <div class="product"></div>
-                <div class="product"></div>
-                <div class="product"></div>
-                <div class="product"></div>
-    
-                <div class="product"></div>
-                <div class="product"></div>
-                <div class="product"></div>
-                <div class="product"></div>
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+                    
+                </div>
+                
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+
+                </div>
+                
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+                    
+                </div>
+
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+
+                </div> 
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+                    
+                </div>
+                
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+                    
+                </div>
+
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+
+                </div> 
+
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+                    
+                </div>
+                
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+                    
+                </div>
+
+                <div class="cards">
+
+                    <img src="images/2.jpg" class="cardImg" alt="">
+                    
+                    <div class="cardContent">
+                        
+                        <h5>Parches de Oro de 24 kt Rejuvenecedores para Contorno de Ojos </h5>
+                        
+                        <p class="units">60uds.</p>
+            
+                        <p class="shop">Natura siberica</p>
+                        
+                        <div class="price">
+                            <p>15,50</p>
+                            <i class="bi bi-currency-euro iconGreen"></i>
+                        </div>
+
+                        <button type="button" class="addCard">
+                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                        </button>
+
+                    </div>
+
+                </div> 
     
             </div>
         </div>
@@ -81,5 +363,6 @@
         
     </div>
 
+    <script src="/scripts/bootstrap.min.js"></script>
 </body>
 </html>
