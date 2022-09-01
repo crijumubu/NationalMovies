@@ -1,22 +1,3 @@
-/*Color palette
-
-Green
-
-#006414
-#009929
-#5ccb5f
-
-Red
-
-#e80729
-#ef2947
-
-Yellow
-
-#efa229
-#f3b24a
-*/
-
 .mainGrid{
     display: grid;
     width: 100%;
@@ -221,7 +202,8 @@ th i{
 .gridCatalog{
     margin: 2%;
     display: grid;
-    grid-template-columns: repeat(4, auto);
+    position: relative;
+    grid-template-columns: repeat(4, 21%);
     grid-template-rows: repeat(3, auto);
     grid-gap: 5%;
 }
@@ -232,11 +214,58 @@ th i{
     display: flex;
     -ms-flex-direction: column;
     flex-direction: column;
-    min-width: 0;
     word-wrap: break-word;
+    min-width: 0;
     background-color: #fff;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .1875rem;
+}
+
+.cards:hover{
+    box-shadow: 8px 4px 10px #dcdcdc;
+}
+
+.cards:hover>.cardContent>.addCard{
+    visibility: visible;
+}
+
+.cards:hover>.addFavorites{
+    visibility: visible;
+}
+
+.discount{
+    background-color: #e80729;
+    position: absolute;
+    color: white;
+    font-weight: 700;
+    font-size: 10px;
+    text-align: center;
+    border-radius: 30px;
+    width: 15%;
+    margin: 4% 0 0 3%;
+    padding: 1% 2%;
+}
+
+.discount p{
+    margin: auto;
+}
+
+
+.addFavorites{
+    border: none;
+    outline: none;
+    background: none;
+    text-align: right;
+    visibility: hidden;
+    margin: 4% 3% 0 0;
+}
+
+.addFavorites i {
+    margin-top: 20%;
+}
+
+.addFavorites:focus{
+    outline: none;
 }
 
 .cardContent{
@@ -258,11 +287,13 @@ th i{
     background-color:orange;
     color:#fff;
     outline: none;
-    height: 120%;
+    height: 100%;
     width: 100%;
     border: none;
     border-radius: 25px;
     font-weight: bolder;
+    margin-bottom: 5%;
+    visibility: hidden;
 }
 .addCard:focus{
     outline: none;
@@ -272,7 +303,11 @@ th i{
     color:#fff;
 }
 
-.cardContent h5{
+.titleProduct{
+    height: 90px;
+}
+
+.titleProduct h5{
     font-size: 20px;
     color: black !important;
     font-weight: 700;
@@ -307,4 +342,30 @@ th i{
 
 .iconGreen{
     color: #23A646;
+}
+
+.pagination {
+    grid-column: 4/5;
+    margin: auto;
+}
+  
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd; 
+}
+  
+.pagination a.active {
+    background-color: #23A646;
+    color: white;
+    border: 1px solid #23A646;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.goBack{
+    display: none;
 }
