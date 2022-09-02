@@ -164,6 +164,10 @@ th i{
     color: #888988;
 }
 
+.label input{
+    outline: none;
+}
+
 .lowerRange{
     width: 85%;
     margin: 5% 0;
@@ -178,6 +182,16 @@ th i{
     width: 100%;
     margin: 5% 0;
     border: #dcdcdc solid 1px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 .filterSubmit{
@@ -319,25 +333,16 @@ th i{
     margin: 0 auto;
 }
 
-.shop{
-    font-size: 16px;
-    color: #888988;
-}
-
 .price{
-    display: grid;
-    grid-template-columns: 57.5% 43.5%;
+    margin: 3% 0;
     font-size: 22.5px;
 }
 
 .price p{
     color: #23A646;
     font-weight: 700;
-    text-align: right;
-}
-
-.price i{
-    text-align: left;
+    text-align: center;
+    display: inline;
 }
 
 .iconGreen{
