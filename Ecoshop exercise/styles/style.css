@@ -225,9 +225,9 @@ input[type=number] {
     margin: 2%;
     display: grid;
     position: relative;
-    grid-template-columns: repeat(4, 21%);
+    grid-template-columns: repeat(4, 23.5%);
     grid-template-rows: repeat(3, auto);
-    grid-gap: 5%;
+    grid-gap: 1% 2%;
 }
 
 .notFound{
@@ -236,26 +236,31 @@ input[type=number] {
 
 .cards {
     position: relative;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: column;
     flex-direction: column;
-    word-wrap: break-word;
     min-width: 0;
-    background-color: #fff;
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid #00000020;
     border-radius: .1875rem;
+    width: 95%;
+    height: 95%;
+    margin: 0 auto;
+    padding-bottom: 12%;
+    background-color: #F8F9FA;
+    transition: width 0.3s ease-in, height 0.3s ease-in;
 }
 
 .cards:hover{
+    position: relative;
     box-shadow: 8px 4px 10px #dcdcdc;
+    border: 1px solid #00000020;
+    width: 100%;
 }
 
 .cards:hover>.cardContent>.addCard{
-    visibility: visible;
+    display: block;
 }
 
-.cards:hover>.addFavorites{
+.cards:hover>.optionsProduct>.addFavorites{
     visibility: visible;
 }
 
@@ -276,6 +281,10 @@ input[type=number] {
     margin: auto;
 }
 
+.optionsProduct{
+    background-color: white;
+    text-align: right;
+}
 
 .addFavorites{
     border: none;
@@ -283,7 +292,7 @@ input[type=number] {
     background: none;
     text-align: right;
     visibility: hidden;
-    margin: 4% 3% 0 0;
+    margin: 5% 4% 0 0;
 }
 
 .addFavorites i {
@@ -319,7 +328,7 @@ input[type=number] {
     border-radius: 25px;
     font-weight: bolder;
     margin-bottom: 5%;
-    visibility: hidden;
+    display: none;
 }
 .addCard:focus{
     outline: none;

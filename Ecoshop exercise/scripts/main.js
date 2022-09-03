@@ -5,38 +5,44 @@ data = data.concat([new product(13, "Aceite corporal de almendras dulces con dos
 
 function displayProduct(product, gridContainer) {
 
-    let card = `<div class="cards">`;
+    let card = `<div class="cards">
+                    `;
+    
     if (product.discount != null){
         card += `<div class="discount">
                 <p>-${product.discount[0]}%<br>${product.discount[1]}°und.</p>
                 </div>`;
     }
-    card += `<button class="addFavorites">
+    
+    card += `       
+                <div class="optionsProduct">
+                    <button class="addFavorites">
                         <i class="bi bi-heart"></i>
                     </button>
+                </div>
 
-                    <img src="${product.image}" class="cardImg" alt="">
+                <img src="${product.image}" class="cardImg" alt="">
                     
-                    <div class="cardContent">
+                <div class="cardContent">
                         
-                        <div class="titleProduct">
-                            <div class="titleProduct">
-                            <h5>${product.productName}</h5>
-                        </div>
-                        </div>
-                        
-                        <p class="units">${product.detail}</p>
-                        
-                        <div class="price">
-                            <p>${product.price}<i class="bi bi-currency-euro iconGreen"></i></p>                         
-                        </div>
-
-                        <button type="button" class="addCard">
-                            <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
-                        </button>
+                    <div class="titleProduct">
+                        <h5>${product.productName}</h5>
+                    </div>
+                    
+                    <div class="units">
+                        <p>${product.detail}</p>
                     </div>
 
-                </div>`;
+                    <div class="price">
+                        <p>${product.price}<i class="bi bi-currency-euro iconGreen"></i></p>                         
+                    </div>
+
+                    <button type="button" class="addCard">
+                        <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                    </button>
+                </div>
+
+            </div>`;
 
     gridContainer[0].innerHTML += card;
 }
