@@ -174,23 +174,68 @@ function search(gridContainer){
     });
 }
 
+function getMinMaxPrice(){
+
+    let min = data[0].price;
+    let max = data[0].price;
+
+    for (let i=1; i < data.length; i++){
+
+        let value = data[i].price;
+
+        if (value > max){
+            max = value;
+        }
+        else if (value < min){
+            min = value;
+        }
+    }
+
+    return [min, max];
+}
+
 function filter(gridContainer){
 
-    /*const slider = document.getElementsByClassName('inputRange');
+    let minMax = getMinMaxPrice();
 
-    slider[0].onchange = function() {
-        const lowerInput = document.getElementsByClassName("lowerRange")[0];
-        lowerInput.innerText = slider.value;
-    }*/
+    const slider = document.getElementsByClassName('inputRange')[0];
 
-    const filterSubmit = document.getElementsByClassName('filterSubmit');
+    slider.setAttribute("min", minMax[0]);
+    slider.setAttribute("max", minMax[1]);
+    slider.value = (minMax[0] + minMax[1]) / 2;
 
-    filterSubmit[0].addEventListener("click", () =>{
+    const lowerInput = document.getElementsByClassName("lowerRange")[0];
+    const upperInput = document.getElementsByClassName("upperRange")[0];
 
-        const lowerInput = document.getElementsByClassName("lowerRange")[0];
+    let selectedInput = lowerInput;
+
+    slider.onchange = function() {
+        selectedInput.setAttribute('value', slider.value);
+    }
+
+    lowerInput.onkeyup = function (){
+        slider.value = lowerInput.value;
+    }
+
+    lowerInput.addEventListener("click", () =>{
+        slider.value = lowerInput.value;
+        selectedInput = lowerInput;
+    });
+
+    upperInput.onkeyup = function (){
+        slider.value = upperInput.value;
+    }
+
+    upperInput.addEventListener("click", () =>{
+        slider.value = upperInput.value;
+        selectedInput = upperInput;
+    });
+
+    const filterSubmit = document.getElementsByClassName('filterSubmit')[0];
+
+    filterSubmit.addEventListener("click", () =>{
+
         const lower = lowerInput.value;
-
-        const upperInput = document.getElementsByClassName("upperRange")[0];
         const upper = upperInput.value;
 
         let matchProducts = [];
@@ -203,12 +248,14 @@ function filter(gridContainer){
 
         lowerInput.value = "";
         upperInput.value = "";
+        slider.value = (minMax[0] + minMax[1]) / 2;
 
         removeCardsGrid(gridContainer);
 
         if (matchProducts.length != 0){
             pagination(1, matchProducts, gridContainer);
-        }else{
+        }
+        else{
             gridContainer[0].innerHTML = `<p class="notFound">No se encontraron resultados para tu búsqueda.</p>`;
         }
     });
