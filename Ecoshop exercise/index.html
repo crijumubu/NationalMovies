@@ -19,21 +19,23 @@
         <nav class="navGrid">
             <div class="leftnavSpace"></div>
             <header class="headerIcon">
-                <a href="index.html"><img class="imgIcon" src="images/icons/displayIcon.jpg" alt="mainLogo"></a>
+                <button class=" btn btnInit">
+                    <img class="imgIcon" src="images/icons/displayIcon.jpg" alt="mainLogo">
+                </button>
             </header>
             
             <div class="searchForm">
                 <input class="searchProduct" type="search" placeholder="¿Qué producto estás buscando?">
-                <button class="searchSubmit" type="submit">
+                <button class="btn searchSubmit" type="submit">
                     <i class="bi bi-search iconGreen"></i>
                 </button>
             </div>
 
             <table>
                 <tr class="icons">
-                    <th><i class="bi bi-heart iconGreen"></i></th>
-                    <th><i class="bi bi-person-circle iconGreen"></i></th>
-                    <th><i class="bi bi-basket3 iconGreen"></i></th>
+                    <th><button class="btn btnShowFavorites"><i class="bi bi-heart iconGreen"></i></button></th>
+                    <th><button class="btn btnShowAccount"><i class="bi bi-person-circle iconGreen"></i></button></th>
+                    <th><button class="btn btnShowCart"><div class="cartCount">0</div><i class="bi bi-basket3 iconGreen"></i></button></th>
                 </tr>
                 <tr class="iconsDescription">
                     <th>Mis favoritos</th>
