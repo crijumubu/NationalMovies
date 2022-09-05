@@ -278,6 +278,10 @@ th i{
     visibility: visible;
 }
 
+.cardImg{
+    cursor: pointer;
+}
+
 .discount{
     background-color: #e80729;
     border-radius: 30px;
@@ -322,9 +326,9 @@ th i{
 .bagIcon{
     color: white;
     font-style: normal !important;
+    height: 100%;
     margin: 5px;
     width: 100%;
-    height: 100%;
 }
 
 .addCart {
@@ -399,31 +403,31 @@ th i{
 /* Ventanas modales*/
 
 .modalCart{
-    display: none;
-    position: fixed;
-    z-index: 1;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
+    display: none;
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    padding-top: 100px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
 }
 
 .headerModalCart{
     border-bottom: 1px solid #00000020;
-    padding-bottom: 5px;
     color: #23A646;
     font-weight: bolder;
+    padding-bottom: 5px;
 }
 
 .modalContent {
     background-color: #fefefe;
+    border: 1px solid #888;
     margin: auto;
     padding: 20px;
-    border: 1px solid #888;
     width: 30%;
 }
 
@@ -440,51 +444,51 @@ th i{
   
 .close:hover, close:focus {
     color: #000;
-    text-decoration: none;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .product{
+    border-bottom: 1px solid #00000020;
     display: grid;
     grid-template-columns: 30% 50% 20%;
     grid-template-rows: auto 25px auto;
-    border-bottom: 1px solid #00000020;
 }
 
 .productImage{
-    width: 100%;
-    grid-row: 1/4;
     grid-column: 1/2;
-    margin: auto 0;
+    grid-row: 1/4;
+    margin: auto;
+    width: 70%;
 }
 
 .productTitle{
+    color: black;
     font-size: 15px;
     font-weight: lighter;
-    grid-row: 1/2;
     grid-column: 2/3;
-    color: black;
-    text-align: left;
+    grid-row: 1/2;
     margin: auto 0;
+    text-align: left;
 }
 
 .removeProduct{
     background: none;
     border: none;
-    text-align: center;
     color: #aaaaaa;
     font-size: 20px;
-    grid-row: 1/2;
     grid-column: 3/4;
+    grid-row: 1/2;
     margin: auto;
+    text-align: center;
 }
 
 .productDetails{
-    text-align: left;
-    font-size: 14px;
     color: #888988;
-    grid-row: 2/3;
+    font-size: 14px;
     grid-column: 2/3;
+    grid-row: 2/3;
+    text-align: left;
 }
 
 .removeProduct:focus{
@@ -493,36 +497,36 @@ th i{
 
 .labelQuantity{
     color: #888988;
-    grid-row: 3/4;
-    grid-column: 2/3;
     font-size: 14px;
+    grid-column: 2/3;
+    grid-row: 3/4;
 }
 
 .quantity{
-    outline: none;
-    width: 20%;
-    color: #23A646;
-    text-align: right;
-    margin-left: 2.5%;
-    border: 1px solid #00000020;
     border-radius: 2.5px;
+    border: 1px solid #00000020;
+    color: #23A646;
+    margin-left: 2.5%;
+    outline: none;
+    text-align: right;
+    width: 20%;
 }
 
 .productPrice{
-    grid-row: 3/4;
-    grid-column: 3/4;
-    text-align: center;
     font-size: 17px;
     font-weight: lighter;
+    grid-column: 3/4;
+    grid-row: 3/4;
+    text-align: center;
 }
 
 .summary{
-    padding-top: 5%;
-    display: grid;
-    grid-template-columns: 80% 20%;
-    color: #888988;
-    font-size: 15px;
     border-bottom: 1px solid #00000020;
+    color: #888988;
+    display: grid;
+    font-size: 15px;
+    grid-template-columns: 80% 20%;
+    padding-top: 5%;
 }
 
 .subtotalLabel{
@@ -535,8 +539,8 @@ th i{
 }
 
 .totalLabel{
-    font-weight: bolder;
     color: #23A646;
+    font-weight: bolder;
 }
 
 .main{
@@ -544,20 +548,19 @@ th i{
 }
 
 .totalPrice{
-    font-size: 20px;
     color: black;
-    margin: 0 auto;
+    font-size: 20px;
     font-weight: bolder;
+    margin: 0 auto;
 }
 
 .infoCart{
-    padding-top: 2.5%;
     color: #23A646;
     font-size: 12px;
+    padding-top: 2.5%;
 }
 
 .btnCart{
-    width: 100%;
     background-color: #23A646;
     border-radius: 25px;
     border: none;
@@ -566,10 +569,117 @@ th i{
     font-weight: bold;
     height: 50px;
     margin: 2% auto;
+    width: 100%;
 }
 
 .btnCart:focus{
     outline: none;
+}
+
+.modalProduct{
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    display: none;
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    padding-top: 100px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.modalProductContent{
+    background-color: #fefefe;
+    border: 1px solid #888;
+    margin: auto;
+    padding: 20px;
+    width: 60%;
+}
+
+.productDetail{
+    display: grid;
+    grid-template-columns: 35% 65%;
+}
+
+.headerInfo{
+    display: grid;
+    grid-template-columns: 80% 20%;
+    margin-top: 5%;
+}
+
+.productDetailTitle{
+    font-size: 25px;
+    font-weight: bolder;
+    grid-column: 1/2;
+    margin: auto 0;
+}
+
+.addFavoritesProduct{
+    margin: auto 0;
+    text-align: right !important;
+}
+
+.productReference{
+    color: #888988;
+    font-size: 21px;
+    margin: 1% 0;
+}
+
+.productDetailPrice{
+    color: #23A646;
+    font-size: 30px;
+    font-weight: bolder;
+    text-align: left;
+}
+
+.optionsDetailProduct{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin-top: 5%;
+}
+
+.detailQuantity{
+    color: #888988;
+    margin-left: 0;
+    margin-right: auto;
+    text-align: center;
+    width: 20%;
+    outline: none;
+}
+
+.addCartProduct{
+    background-color:orange;
+    border-radius: 25px;
+    border: none;
+    color:#fff;
+    font-weight: bolder;
+    margin-left: auto;
+    margin-right: 0;
+    text-align: center;
+    width: 70%;
+}
+
+.addCartProduct:focus{
+    outline: none;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-weight: bold;
+}
+
+.close i{
+    font-size: 22px;
+    font-weight: bolder;
+}
+  
+.close:hover, close:focus {
+    color: #000;
+    cursor: pointer;
+    text-decoration: none;
 }
 /* Estilos para grupos de cosas generales*/
 
@@ -592,14 +702,14 @@ th i{
 .btn{
     background: none;
     border: none;
-    outline: none !important;
     box-shadow: none !important;
+    outline: none !important;
     width: 100%;
 }
 
 .btn:focus{
-    outline: none;
     box-shadow: none;
+    outline: none;
 }
 
 .notFound{

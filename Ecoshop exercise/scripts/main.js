@@ -93,9 +93,7 @@ function removeCardsGrid(container){
     }
 }
 
-function addFavorites(){
-
-    const favoriteButton = document.getElementsByClassName('addFavorites');
+function addFavorites(favoriteButton){
 
     for (const button of favoriteButton){
 
@@ -155,7 +153,6 @@ function addCart(){
         
                     count += 1
                     cartCount.innerText = count;
-                    console.log(cart);
                 }
             }
         });
@@ -235,7 +232,10 @@ function pagination(pageNumber, displayArrData){
     }while(paginationQuantity > j && j <= limitPageNumber)
 
     gridContainer[0].appendChild(paginationDiv);
-    addFavorites();
+
+    const favoriteButton = document.getElementsByClassName('addFavorites');
+    addFavorites(favoriteButton);
+    detailProductAction();
     addCart();
 }
 
@@ -309,7 +309,6 @@ function btnsAction(){
                         finalPrice += parseFloat(price.innerText);
                     }
 
-                    //const finalPrice = (parseFloat(subtotalPrice.innerText) + (price * (parseFloat(input.value) - 1))).toFixed(2)
                     subtotalPrice.innerHTML = finalPrice + `<i class="bi bi-currency-euro"></i>`;
                     totalPrice.innerHTML = finalPrice + `<i class="bi bi-currency-euro"></i>`;
 
@@ -357,6 +356,61 @@ function btnsAction(){
             gridContainer[0].innerHTML = `<p class="notFound">No se encontraron resultados para tu búsqueda.</p>`;
         }
     });
+}
+
+function detailProductAction(){
+
+    const cards = document.getElementsByClassName('cardImg');
+    const modalProduct = document.getElementsByClassName('modalProduct')[0];
+
+    for (const card of cards){
+
+        card.addEventListener("click", () =>{
+            let productIdentificator = card.previousSibling.previousSibling.innerText;
+            let displayProduct;
+
+            for (const product of data){
+                if (product.id == productIdentificator){
+                    displayProduct = product;
+                    break;
+                }
+            }
+
+            displayDetailCard(displayProduct);
+
+            modalProduct.style.display = 'block';
+
+            const btnClose = document.getElementsByClassName('close')[0];
+
+            btnClose.addEventListener("click", () =>{
+                modalProduct.style.display = "none";
+            });
+            
+            window.addEventListener("click", (event) =>{
+                if (event.target == modalCart || event.target.className == "closeIcon bi bi-x-lg") {
+                    modalProduct.style.display = "none";
+                }
+            });
+
+            const addCart = document.getElementsByClassName('addCartProduct')[0];
+
+            addCart.addEventListener("click", () =>{
+                cart.push(displayProduct);
+
+                const cartCount = document.getElementsByClassName('cartCount')[0];
+                
+                cartCount.style.display = "block";
+                count += 1;
+
+                cartCount.innerText = count;
+            });
+
+            const addFavoritesProduct = document.getElementsByClassName('addFavoritesProduct');
+            
+            addFavorites(addFavoritesProduct);
+
+        });
+    }
 }
 
 function getMinMaxPrice(){
@@ -446,7 +500,6 @@ function filter(){
     });
 }
 
-
 function displayProductCart() {
 
     let modalContent = document.getElementsByClassName("modalContent");
@@ -498,6 +551,38 @@ function displayProductCart() {
     modalContent[0].innerHTML += card;
 }
 
+function displayDetailCard(displayProduct){
+
+    let modalContent = document.getElementsByClassName("modalProductContent")[0];
+
+    modalContent.innerHTML = '';
+
+    let card = `<button class="close"><i class="closeIcon bi bi-x-lg"></i></button>
+                <div class="productDetail">
+                    <img class="productImage" src="${displayProduct.image}">
+                    <div class="productInformation">
+
+                        <div class="headerInfo">
+                            <p class="productDetailTitle">${displayProduct.productName}</p>
+                            <button class="btn addFavoritesProduct"><i class="bi bi-heart"></i></button>
+                        </div>
+
+                        <p class="productReference">${displayProduct.detail.toUpperCase()}</p>
+                        <p class="productDetailPrice">${displayProduct.price}<i class="bi bi-currency-euro"></i></p>
+                        <p class="description">${displayProduct.description}</p>
+                        
+                        <div class="optionsDetailProduct">
+                            <label class="productDetailQuantity"><input class="detailQuantity" value="1"> </label>
+                            <button type="button" class="addCartProduct">
+                                <i class="bi bi-basket3 bagIcon">   Añadir a la cesta</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+
+    modalContent.innerHTML += card;
+}
+
 function removeProductCart(){
 
     const removeProduct = document.getElementsByClassName('removeProduct');
@@ -527,7 +612,12 @@ function removeProductCart(){
                 const cartCount = document.getElementsByClassName('cartCount')[0];
                 
                 count -= 1;
-                cartCount.innerText = count;
+
+                if (count != 0){
+                    cartCount.innerText = count;
+                }else{
+                    cartCount.style.display = "none";
+                }
             });
         }
 
