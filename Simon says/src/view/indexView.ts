@@ -1,16 +1,12 @@
 export class indexView{
 
     private _display: any;
-    private _modal: HTMLElement;
-    /*private _openModalBtn: any;
-    private _closeModalBtn: any;*/
 
     constructor() {
-        this._display = this.getElement('container');
-        this._modal = document.getElementsByClassName('modal')[0]! as HTMLElement;
+        this._display = this.getElement('modal');
     }
 
-    private getElement = (selector: string): HTMLElement | null => document.querySelector(selector);
+    private getElement = (selector: string): HTMLElement | null => document.getElementsByClassName(selector)[0]! as HTMLElement;
 
     public set display(display: HTMLElement) {
         this._display = display;
@@ -20,25 +16,39 @@ export class indexView{
         return this._display;
     }
 
-    public addToDisplay(content: string): void {
+    public addToDisplayString(content: string): void {
         this._display.innerHTML += `${content}`;
     }
 
-    /*public setModalAsDisplay(){
-        this._display = this._modal;
-    }*/
-
-    public get modal() {
-        return this._modal;
+    public addToDisplayElement(content: HTMLElement): void {
+        this._display.appendChild(content);
     }
 
     public displayModal(display: string): void {
-        this._modal.style.display = display;
+        this._display = this.getElement('modal');
+        this._display.style.display = display;
     }
 
-    public addToModal(levels: string[]): void{
+    public addToModalHeader(title : string): void{
 
-        this._display = this._modal.children[0].childNodes[5];
+        this._display = this.getElement('modal-content');
+        this._display.innerHTML = "";
+
+        this.addToDisplayString(`
+            <div class="modalcontrolOptions">
+                <span class="close">&times;</span>
+            </div>
+            <h1 class='modalTitle'>${title}</h1>
+            <div class='modalInformation'>
+            </div>
+            `
+        );
+    }
+
+    public addToModalLevels(levels: string[]): void{
+
+        this.addToModalHeader('Levels');
+        this._display = document.getElementsByClassName('modalInformation')[0];
 
         for (let i = 0; i < levels.length; i++){
             const levelBtn = document.createElement("button");
@@ -46,11 +56,31 @@ export class indexView{
             levelBtn.innerHTML += `${levels[i]}`;
             
             if (i + 1 == levels.length){
-                levelBtn.style.gridColumn = "1/3";
-                levelBtn.style.width = "40%";
+                levelBtn.classList.add('last');
             }
 
-            this._display.appendChild(levelBtn);
+            this.addToDisplayElement(levelBtn);
+        }
+    }
+
+    public addToModalScore(scores: any[]){
+        
+        this.addToModalHeader('Score');
+        this._display = document.getElementsByClassName('modalInformation')[0];
+
+        this.addToDisplayString(`
+            <h2 class='scoreSubheader'>Name</h2> 
+            <h2 class='scoreSubheader'>Result</h2>`
+        );
+        if (scores.length != 0){
+            for (let i=0; i < scores.length; i++){
+                this.addToDisplayString(`
+                <p class='scoreContent'>${scores[i].name} </p> 
+                <p class='scoreContent'>${scores[i].score} </p>`
+                );
+            }
+        }else{
+            this.addToDisplayString(`<p class='scoreContent'>There are no available scores yet, play now!<p>`)
         }
     }
 }
