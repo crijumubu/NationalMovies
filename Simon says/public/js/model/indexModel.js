@@ -1,6 +1,7 @@
 export class indexModel {
     constructor() {
         this._onGame = false;
+        this._loose = false;
         this._transitionTime = -1;
         this._sequence = [];
         this._userSequence = [];
@@ -11,6 +12,12 @@ export class indexModel {
     }
     set onGame(value) {
         this._onGame = value;
+    }
+    get loose() {
+        return this._loose;
+    }
+    set loose(value) {
+        this._loose = value;
     }
     get transitionTime() {
         return this._transitionTime;

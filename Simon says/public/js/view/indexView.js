@@ -66,7 +66,6 @@ export class indexView {
     }
     blinkButton(letter, button, originalToToggle) {
         let colors = [{ letter: 'B', color: ['rgb(37, 37, 214)', 'rgb(0, 0, 255)'] }, { letter: 'G', color: ['rgb(40, 198, 40)', 'rgb(0, 255, 0)'] }, { letter: 'R', color: ['rgb(188, 31, 31)', 'rgb(255, 0, 0)'] }, { letter: 'Y', color: ['rgb(190, 190, 33)', 'rgb(255, 255, 0)'] }];
-        let color = '';
         for (let i = 0; i < colors.length; i++) {
             if (colors[i].letter == letter) {
                 if (originalToToggle) {

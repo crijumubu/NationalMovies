@@ -11,6 +11,7 @@ body {
 }
 .flex-container .sbtn {
     color: white;
+    cursor: pointer;
     font-size: 30px;
     font-weight: bold;
     height: 120px;
@@ -62,6 +63,7 @@ body {
     border-radius: 10px;
     border: 1px solid rgb(155, 155, 155);
     color: black;
+    cursor: pointer;
     display: block;
     font-size: 25px;
     font-weight: bold;

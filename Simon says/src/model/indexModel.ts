@@ -1,14 +1,16 @@
 export class indexModel {
 
     private _onGame : boolean;
+    private _loose : boolean;
     private _transitionTime : number;
-    private _sequence: string[];
+    private _sequence: HTMLElement[];
     private _userSequence : string[];
     private _score: any[];
 
     constructor() {
 
         this._onGame = false;
+        this._loose = false;
         this._transitionTime = -1;
         this._sequence = [];
         this._userSequence = [];
@@ -23,6 +25,16 @@ export class indexModel {
     public set onGame(value : boolean){
 
         this._onGame = value;
+    }
+
+    public get loose(){
+
+        return this._loose;
+    }
+
+    public set loose(value : boolean){
+
+        this._loose = value;
     }
 
     public get transitionTime(){
@@ -40,7 +52,7 @@ export class indexModel {
         return this._sequence;
     }
 
-    public pushToSequence(value : string){
+    public pushToSequence(value : HTMLElement){
 
         this._sequence.push(value);
     }
