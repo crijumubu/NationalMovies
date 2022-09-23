@@ -1,6 +1,6 @@
 body {
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 .flex-container {
@@ -10,8 +10,7 @@ body {
     min-width: 300px;
 }
 .flex-container .sbtn {
-    color: white;
-    cursor: pointer;
+    color: black;
     font-size: 30px;
     font-weight: bold;
     height: 120px;
@@ -59,7 +58,7 @@ body {
     background-color: rgb(0, 0, 255);
 }
 .btn {
-    background-color: white;
+    background-color: rgb(127, 218, 127);
     border-radius: 10px;
     border: 1px solid rgb(155, 155, 155);
     color: black;
@@ -101,6 +100,9 @@ body {
     padding: 20px;
     width: 25%;
 }
+.modal-content .btn{
+    background-color: white;
+}
 .modalcontrolOptions{
     text-align: right;
 }
@@ -121,7 +123,7 @@ body {
 }
 .modalInformation{
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: repeat(3, 33%);
 }
 .levelBtn{
     font-weight: normal;
@@ -129,7 +131,7 @@ body {
     height: 60px;
     margin: 5% auto;
     text-align: center;
-    width: 60%;
+    width: 80%;
 }
 .last{
     grid-column: 1/3;
@@ -138,20 +140,31 @@ body {
 .scoreSubheader{
     margin-top: 3%;
     text-align: center;
+    width: 100%;
 }
 .noScore{
-    grid-column: 1/3;
+    grid-column: 1/4;
 }
 .scoreContent{
     text-align: center;
 }
+form{
+    grid-column: 1/4;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
 .labelName{
-    width: 40%;
+    text-align: center;
 }
 .name{
-    margin-left: 4%;
-    width: 56%;
+    margin-right: 20%;
+    text-align: center;
 }
 .submit{
-    margin: 20px auto 0 auto;
+    margin: 7% auto 0 auto;
+}
+.roundContainer{
+    display: none;
+    margin-top: 2%;
+    font-size: 25px;
 }

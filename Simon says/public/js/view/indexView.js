@@ -19,43 +19,33 @@ export class indexView {
         this._display = this.getElement('modal');
         this._display.style.display = display;
     }
-    addToModalHeader(title) {
+    addToModalHeader(title, options) {
         this._display = this.getElement('modal-content');
         this._display.innerHTML = "";
-        this.addToDisplayString(`
-            <div class="modalcontrolOptions">
-                <span class="close">&times;</span>
-            </div>
-            <h1 class='modalTitle'>${title}</h1>
-            <div class='modalInformation'>
-            </div>
-            `);
+        if (options) {
+            this.addToDisplayString(`<div class="modalcontrolOptions"> <span class="close">&times;</span> </div>`);
+        }
+        this.addToDisplayString(` <h1 class='modalTitle'>${title}</h1> <div class='modalInformation'> </div>`);
     }
-    addToModalLevels(levels) {
-        this.addToModalHeader('Levels');
+    addToModalLevels() {
+        const levels = ['Easy', 'Intermediate', 'Hard'];
+        this.addToModalHeader('Levels', true);
         this._display = document.getElementsByClassName('modalInformation')[0];
         for (let i = 0; i < levels.length; i++) {
             const levelBtn = document.createElement("button");
             levelBtn.className = 'btn levelBtn';
             levelBtn.innerHTML += `${levels[i]}`;
-            if (i + 1 == levels.length) {
-                levelBtn.classList.add('last');
-            }
             this.addToDisplayElement(levelBtn);
         }
     }
     addToModalScore(scores) {
-        this.addToModalHeader('Score');
+        this.addToModalHeader('Score', true);
         this._display = document.getElementsByClassName('modalInformation')[0];
         if (scores.length != 0) {
-            this.addToDisplayString(`
-                <h2 class='scoreSubheader'>Name</h2> 
-                <h2 class='scoreSubheader'>Result</h2>`);
+            this.addToDisplayString(`<h2 class='scoreSubheader'>Name</h2> <h2 class='scoreSubheader'>Level</h2> <h2 class='scoreSubheader'>Result</h2>`);
             for (let i = 0; i < 10; i++) {
                 if (i != scores.length) {
-                    this.addToDisplayString(`
-                    <p class='scoreContent'>${scores[i].name} </p> 
-                    <p class='scoreContent'>${scores[i].score} </p>`);
+                    this.addToDisplayString(`<p class='scoreContent'>${scores[i].name} </p> <p class='scoreContent'>${scores[i].level} </p> <p class='scoreContent'>${scores[i].score} </p>`);
                 }
                 else {
                     break;
@@ -67,14 +57,10 @@ export class indexView {
         }
     }
     addToModalNewScore() {
-        this._display = this.getElement('modal-content');
+        this.addToModalHeader('Game over', false);
+        this._display = document.getElementsByClassName('modalInformation')[0];
         this._display.innerHTML = "";
-        this.addToDisplayString(`
-            <h1 class='modalTitle'>Game over</h1>
-            <label class='labelName' for='name'>Input your name:</label>
-            <input type='text' class='name' name='name' required>
-            <button class='btn submit'>Submit</button>
-        `);
+        this.addToDisplayString(`<form> <label class='labelName' for='name'>Input your name:</label> <input type='text' id='name' class='name' name='name' required> <input type='submit' class='btn submit last' value='Submit'> </form>`);
     }
     get simonButtons() {
         return document.getElementsByClassName('sbtn');
@@ -91,5 +77,21 @@ export class indexView {
                 }
             }
         }
+    }
+    roundCounter(indicator) {
+        let buttonsContainer = document.getElementsByClassName('gridButtons')[0];
+        let roundContainer = document.getElementsByClassName('roundContainer')[0];
+        if (indicator) {
+            roundContainer.style.display = 'block';
+            buttonsContainer.style.display = 'none';
+        }
+        else {
+            roundContainer.style.display = 'none';
+            buttonsContainer.style.display = 'grid';
+        }
+    }
+    updateCounter(value) {
+        let element = document.getElementsByClassName('roundCount')[0];
+        element.innerHTML = value;
     }
 }

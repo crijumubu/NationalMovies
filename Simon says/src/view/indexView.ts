@@ -35,25 +35,23 @@ export class indexView{
         this._display.style.display = display;
     }
 
-    public addToModalHeader(title : string): void{
+    public addToModalHeader(title : string, options : boolean): void{
 
         this._display = this.getElement('modal-content');
         this._display.innerHTML = "";
 
-        this.addToDisplayString(`
-            <div class="modalcontrolOptions">
-                <span class="close">&times;</span>
-            </div>
-            <h1 class='modalTitle'>${title}</h1>
-            <div class='modalInformation'>
-            </div>
-            `
-        );
+        if (options){
+            this.addToDisplayString(`<div class="modalcontrolOptions"> <span class="close">&times;</span> </div>`);
+        }
+
+        this.addToDisplayString(` <h1 class='modalTitle'>${title}</h1> <div class='modalInformation'> </div>`);
     }
 
-    public addToModalLevels(levels: string[]): void{
+    public addToModalLevels(): void{
 
-        this.addToModalHeader('Levels');
+        const levels : string[] = ['Easy', 'Intermediate', 'Hard'];
+
+        this.addToModalHeader('Levels', true);
         this._display = document.getElementsByClassName('modalInformation')[0];
 
         for (let i = 0; i < levels.length; i++){
@@ -61,10 +59,6 @@ export class indexView{
             const levelBtn = document.createElement("button");
             levelBtn.className = 'btn levelBtn';
             levelBtn.innerHTML += `${levels[i]}`;
-            
-            if (i + 1 == levels.length){
-                levelBtn.classList.add('last');
-            }
 
             this.addToDisplayElement(levelBtn);
         }
@@ -72,45 +66,34 @@ export class indexView{
 
     public addToModalScore(scores: any[]){
         
-        this.addToModalHeader('Score');
+        this.addToModalHeader('Score', true);
         this._display = document.getElementsByClassName('modalInformation')[0];
         
         if (scores.length != 0){
 
-            this.addToDisplayString(`
-                <h2 class='scoreSubheader'>Name</h2> 
-                <h2 class='scoreSubheader'>Result</h2>`
-            );
+            this.addToDisplayString(`<h2 class='scoreSubheader'>Name</h2> <h2 class='scoreSubheader'>Level</h2> <h2 class='scoreSubheader'>Result</h2>`);
 
-            for (let i=0; i < 10; i++){
+            for (let i = 0; i < 10; i++){
 
                 if (i != scores.length){
-
-                    this.addToDisplayString(`
-                    <p class='scoreContent'>${scores[i].name} </p> 
-                    <p class='scoreContent'>${scores[i].score} </p>`
-                    );
+                    this.addToDisplayString(`<p class='scoreContent'>${scores[i].name} </p> <p class='scoreContent'>${scores[i].level} </p> <p class='scoreContent'>${scores[i].score} </p>`);
                 }else{
                     break;
                 }
             }
         }else{
-
             this.addToDisplayString(`<p class='scoreContent noScore'>There are no available scores yet, play now!<p>`)
         }
     }
 
     public addToModalNewScore(){
 
-        this._display = this.getElement('modal-content');
+        this.addToModalHeader('Game over', false);
+
+        this._display = document.getElementsByClassName('modalInformation')[0];
         this._display.innerHTML = "";
 
-        this.addToDisplayString(`
-            <h1 class='modalTitle'>Game over</h1>
-            <label class='labelName' for='name'>Input your name:</label>
-            <input type='text' class='name' name='name' required>
-            <button class='btn submit'>Submit</button>
-        `);
+        this.addToDisplayString(`<form> <label class='labelName' for='name'>Input your name:</label> <input type='text' id='name' class='name' name='name' required> <input type='submit' class='btn submit last' value='Submit'> </form>`);
     }
 
     public get simonButtons(){
@@ -121,8 +104,7 @@ export class indexView{
     public blinkButton(letter : string, button : HTMLElement, originalToToggle : boolean){
 
         let colors : any[] = [{letter : 'B', color : ['rgb(37, 37, 214)', 'rgb(0, 0, 255)']}, { letter : 'G', color : ['rgb(40, 198, 40)', 'rgb(0, 255, 0)']}, { letter : 'R', color : ['rgb(188, 31, 31)', 'rgb(255, 0, 0)']}, {letter : 'Y', color : ['rgb(190, 190, 33)', 'rgb(255, 255, 0)']}];
-
-        for (let i=0; i<colors.length; i++){
+        for (let i = 0; i < colors.length; i++){
 
             if (colors[i].letter == letter){
 
@@ -133,5 +115,27 @@ export class indexView{
                 }
             }
         }
+    }
+
+    public roundCounter(indicator : boolean){
+
+        let buttonsContainer = document.getElementsByClassName('gridButtons')[0] as HTMLElement;
+        let roundContainer = document.getElementsByClassName('roundContainer')[0] as HTMLElement;
+
+        if (indicator){
+
+            roundContainer.style.display = 'block';
+            buttonsContainer.style.display = 'none';
+        }else{
+
+            roundContainer.style.display = 'none';
+            buttonsContainer.style.display = 'grid';
+        }
+    }
+
+    public updateCounter(value : string){
+
+        let element = document.getElementsByClassName('roundCount')[0] as HTMLElement;
+        element.innerHTML = value;
     }
 }

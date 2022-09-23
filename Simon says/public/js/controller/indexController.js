@@ -10,29 +10,37 @@ export class indexController {
         for (let i = 0; i < playButtons.length; i++) {
             let button = playButtons[i];
             let buttonLetter = button.textContent;
-            //! TODO -> Add click sound
             button.addEventListener('click', () => {
                 if (this.model.onGame) {
-                    console.log('onclick letter -> ' + buttonLetter + '\nsequence letter -> ' + this.model.sequence[this.model.userContSequence].textContent + '\ncont sequence -> ' + this.model.userContSequence);
-                    if (buttonLetter == this.model.sequence[this.model.userContSequence].textContent && this.model.sequence.length - 1 == this.model.userContSequence) {
-                        this.model.userContSequence = 0;
-                        this.round();
-                    }
-                    else if (buttonLetter == this.model.sequence[this.model.userContSequence].textContent) {
-                        this.model.userContSequence++;
+                    if (buttonLetter == this.model.sequence[this.model.userContSequence].textContent) {
+                        this.model.sounds[buttonLetter].play();
+                        if (this.model.sequence.length - 1 == this.model.userContSequence) {
+                            this.model.userContSequence = 0;
+                            this.round();
+                        }
+                        else {
+                            this.model.userContSequence++;
+                        }
                     }
                     else {
+                        this.model.sounds['E'].play();
                         this.gameOver();
                     }
                 }
             });
             button.addEventListener('mouseenter', () => {
-                if (this.model.onGame) {
+                if (this.model.round != 0 && this.model.onGame) {
                     this.view.blinkButton(buttonLetter, button, true);
+                    button.style.cursor = 'pointer';
+                }
+                else {
+                    button.style.cursor = 'default';
                 }
             });
             button.addEventListener('mouseleave', () => {
-                this.view.blinkButton(buttonLetter, button, false);
+                if (this.model.round != 0) {
+                    this.view.blinkButton(buttonLetter, button, false);
+                }
             });
         }
     }
@@ -40,11 +48,6 @@ export class indexController {
         let random = Math.floor(Math.random() * 4);
         let button = this.view.simonButtons[random];
         this.model.pushToSequence(button);
-        let values = [];
-        for (let i = 0; i < this.model.sequence.length; i++) {
-            values.push(this.model.sequence[i].textContent);
-        }
-        console.log(values);
     }
     showSequence() {
         let i = 0;
@@ -54,6 +57,7 @@ export class indexController {
             let buttonLetter = button.textContent;
             this.view.blinkButton(buttonLetter, button, true);
             setTimeout(() => this.view.blinkButton(buttonLetter, button, false), this.model.transitionTime);
+            this.model.sounds[buttonLetter].play();
             i++;
             if (i == this.model.sequence.length) {
                 this.model.onGame = true;
@@ -67,35 +71,24 @@ export class indexController {
         let buttonSubmit = document.getElementsByClassName('submit')[0];
         buttonSubmit.addEventListener('click', () => {
             let input = document.getElementsByClassName('name')[0];
-            this.model.pushToScore({ name: input.value, score: this.model.round });
-            this.model.reset();
-            this.view.displayModal('none');
+            if (input.value != '') {
+                this.model.pushToScore({ name: input.value, level: Object.keys(this.model.level).find(key => this.model.level[key] === this.model.transitionTime), score: this.model.round });
+                this.model.reset();
+                this.view.displayModal('none');
+            }
         });
-        // let playButtons = this.view.simonButtons;
-        // for (let i=0; i<playButtons.length; i++){
-        //     let button = playButtons[i] as HTMLElement;
-        //     let buttonLetter = button.textContent!;
-        // }
+        this.view.roundCounter(false);
     }
-    //! TODO -> Add counter round
     round() {
         this.model.round++;
+        this.view.updateCounter(this.model.round.toString());
         this.generateSequence();
         this.showSequence();
     }
     play(level) {
-        this.model.onGame = true;
-        switch (level) {
-            case 'Easy':
-                this.model.transitionTime = 1000;
-                break;
-            case 'Intermediate':
-                this.model.transitionTime = 750;
-                break;
-            case 'Hard':
-                this.model.transitionTime = 500;
-                break;
-        }
+        this.model.transitionTime = this.model.level[level];
+        console.log(this.model.transitionTime);
+        this.view.roundCounter(true);
         this.round();
     }
     addModalEvents() {
@@ -117,8 +110,7 @@ export class indexController {
         }
     }
     userLevels() {
-        const levels = ['Easy', 'Intermediate', 'Hard'];
-        this.view.addToModalLevels(levels);
+        this.view.addToModalLevels();
         const levelBtn = document.getElementsByClassName('levelBtn');
         for (let i = 0; i < levelBtn.length; i++) {
             levelBtn[i].addEventListener('click', () => {
@@ -129,7 +121,8 @@ export class indexController {
     }
     bestScores() {
         this.view.displayModal('block');
-        this.model.score.sort(function (a, b) {
+        let score = JSON.parse(localStorage.getItem("score") || "[]");
+        score.sort(function (a, b) {
             if (a.score < b.score) {
                 return 1;
             }
@@ -138,6 +131,6 @@ export class indexController {
             }
             return 0;
         });
-        this.view.addToModalScore(this.model.score);
+        this.view.addToModalScore(score);
     }
 }
