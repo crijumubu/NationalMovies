@@ -11,6 +11,7 @@ export class indexController {
         this.model = model;
         this.view = view;
         this.addModalEvents();
+        this.addSimonEvent();
     }
 
     private addSimonEvent(): void{
@@ -27,8 +28,8 @@ export class indexController {
 
                 if (this.model.onGame){
 
-                    console.log('onclick letter -> ' + buttonLetter + '\nsequence letter -> ' + this.model.sequence[this.model.userContSequence].textContent + '\ncont sequence -> ' + this.model.userContSequence);
                     if (buttonLetter == this.model.sequence[this.model.userContSequence].textContent && this.model.sequence.length -1 == this.model.userContSequence){
+
                         this.model.userContSequence = 0;
                         this.round();
                     }else if (buttonLetter == this.model.sequence[this.model.userContSequence].textContent){
@@ -65,7 +66,6 @@ export class indexController {
         for (let i=0; i<this.model.sequence.length; i++){
             values.push(this.model.sequence[i].textContent!);
         }
-        console.log(values);
     }
 
     private showSequence(){
@@ -108,6 +108,7 @@ export class indexController {
         });
     }
 
+    //! TODO -> Add counter round
     private round(): void{
 
         this.model.round++;
@@ -117,6 +118,8 @@ export class indexController {
     }
 
     private play(level : string): void{
+
+        this.model.onGame = true;
 
         switch (level){
 
@@ -133,7 +136,6 @@ export class indexController {
                 break;
         }
 
-        this.addSimonEvent();
         this.round();
     }
 
@@ -173,26 +175,24 @@ export class indexController {
 
         for (let i=0; i<levelBtn.length; i++){
 
-            levelBtn[i].addEventListener('click', (event) => {
+            levelBtn[i].addEventListener('click', () => {
 
                 this.view.displayModal('none');
-                this.model.onGame = true;
-                this.play(levelBtn[i].innerHTML);
+                this.play(levelBtn[i].textContent!);
             });
         }
     }
 
-    //! TODO -> Redo the functionality, sort scores while input on the array
     public bestScores(): void{
 
         this.view.displayModal('block');
 
         this.model.score.sort(function (a, b) {
 
-            if (a.name > b.name) {
+            if (a.score < b.score) {
               return 1;
             }
-            if (a.name < b.name) {
+            if (a.score > b.score) {
               return -1;
             }
             return 0;

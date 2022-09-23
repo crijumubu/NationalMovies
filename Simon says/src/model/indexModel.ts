@@ -91,7 +91,8 @@ export class indexModel {
 
     public pushToScore(value : any){
 
-        this._score.push(value)
+        this._score.push(value);
+
     }
 
     public reset(){

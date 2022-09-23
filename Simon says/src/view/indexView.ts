@@ -82,16 +82,21 @@ export class indexView{
                 <h2 class='scoreSubheader'>Result</h2>`
             );
 
-            for (let i=0; i < scores.length; i++){
+            for (let i=0; i < 10; i++){
 
-                this.addToDisplayString(`
+                if (i != scores.length){
+
+                    this.addToDisplayString(`
                     <p class='scoreContent'>${scores[i].name} </p> 
                     <p class='scoreContent'>${scores[i].score} </p>`
-                );
+                    );
+                }else{
+                    break;
+                }
             }
         }else{
 
-            this.addToDisplayString(`<p class='scoreContent'>There are no available scores yet, play now!<p>`)
+            this.addToDisplayString(`<p class='scoreContent noScore'>There are no available scores yet, play now!<p>`)
         }
     }
 

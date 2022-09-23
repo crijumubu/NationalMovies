@@ -3,6 +3,7 @@ export class indexController {
         this.model = model;
         this.view = view;
         this.addModalEvents();
+        this.addSimonEvent();
     }
     addSimonEvent() {
         let playButtons = this.view.simonButtons;
@@ -70,13 +71,20 @@ export class indexController {
             this.model.reset();
             this.view.displayModal('none');
         });
+        // let playButtons = this.view.simonButtons;
+        // for (let i=0; i<playButtons.length; i++){
+        //     let button = playButtons[i] as HTMLElement;
+        //     let buttonLetter = button.textContent!;
+        // }
     }
+    //! TODO -> Add counter round
     round() {
         this.model.round++;
         this.generateSequence();
         this.showSequence();
     }
     play(level) {
+        this.model.onGame = true;
         switch (level) {
             case 'Easy':
                 this.model.transitionTime = 1000;
@@ -88,7 +96,6 @@ export class indexController {
                 this.model.transitionTime = 500;
                 break;
         }
-        this.addSimonEvent();
         this.round();
     }
     addModalEvents() {
@@ -114,20 +121,19 @@ export class indexController {
         this.view.addToModalLevels(levels);
         const levelBtn = document.getElementsByClassName('levelBtn');
         for (let i = 0; i < levelBtn.length; i++) {
-            levelBtn[i].addEventListener('click', (event) => {
+            levelBtn[i].addEventListener('click', () => {
                 this.view.displayModal('none');
-                this.model.onGame = true;
-                this.play(levelBtn[i].innerHTML);
+                this.play(levelBtn[i].textContent);
             });
         }
     }
     bestScores() {
         this.view.displayModal('block');
         this.model.score.sort(function (a, b) {
-            if (a.name > b.name) {
+            if (a.score < b.score) {
                 return 1;
             }
-            if (a.name < b.name) {
+            if (a.score > b.score) {
                 return -1;
             }
             return 0;
