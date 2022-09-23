@@ -45,21 +45,31 @@ export class indexView {
         }
     }
     addToModalScore(scores) {
-        this.addToModalHeader('Score');
+        this.addToModalHeader('Scores');
         this._display = document.getElementsByClassName('modalInformation')[0];
-        this.addToDisplayString(`
-            <h2 class='scoreSubheader'>Name</h2> 
-            <h2 class='scoreSubheader'>Result</h2>`);
         if (scores.length != 0) {
+            this.addToDisplayString(`
+                <h2 class='scoreSubheader'>Name</h2> 
+                <h2 class='scoreSubheader'>Result</h2>`);
             for (let i = 0; i < scores.length; i++) {
                 this.addToDisplayString(`
-                <p class='scoreContent'>${scores[i].name} </p> 
-                <p class='scoreContent'>${scores[i].score} </p>`);
+                    <p class='scoreContent'>${scores[i].name} </p> 
+                    <p class='scoreContent'>${scores[i].score} </p>`);
             }
         }
         else {
             this.addToDisplayString(`<p class='scoreContent'>There are no available scores yet, play now!<p>`);
         }
+    }
+    addToModalNewScore() {
+        this._display = this.getElement('modal-content');
+        this._display.innerHTML = "";
+        this.addToDisplayString(`
+            <h1 class='modalTitle'>Game over</h1>
+            <label class='labelName' for='name'>Input your name:</label>
+            <input type='text' class='name' name='name' required>
+            <button class='btn submit'>Submit</button>
+        `);
     }
     get simonButtons() {
         return document.getElementsByClassName('sbtn');

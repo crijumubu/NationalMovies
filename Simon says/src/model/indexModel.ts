@@ -2,18 +2,20 @@ export class indexModel {
 
     private _onGame : boolean;
     private _loose : boolean;
+    private _round : number;
     private _transitionTime : number;
     private _sequence: HTMLElement[];
-    private _userSequence : string[];
+    private _userContSequence : number;
     private _score: any[];
 
     constructor() {
 
         this._onGame = false;
         this._loose = false;
+        this._round = 0;
         this._transitionTime = -1;
         this._sequence = [];
-        this._userSequence = [];
+        this._userContSequence = 0;
         this._score = [];
     }
 
@@ -37,6 +39,16 @@ export class indexModel {
         this._loose = value;
     }
 
+    public get round(){
+
+        return this._round;
+    }
+
+    public set round(value : number){
+
+        this._round = value;
+    }
+
     public get transitionTime(){
 
         return this._transitionTime;
@@ -57,14 +69,14 @@ export class indexModel {
         this._sequence.push(value);
     }
 
-    public get userSequence() {
+    public get userContSequence() {
 
-        return this._userSequence;
+        return this._userContSequence;
     }
 
-    public pushToUserSequence(value : string){
+    public set userContSequence(value : number){
 
-        this._userSequence.push(value);
+        this._userContSequence = value;
     }
 
     public clearSequences(){
@@ -80,5 +92,15 @@ export class indexModel {
     public pushToScore(value : any){
 
         this._score.push(value)
+    }
+
+    public reset(){
+
+        this._onGame = false;
+        this._loose = false;
+        this._round = 0;
+        this._transitionTime = -1;
+        this._sequence = [];
+        this._userContSequence = 0;
     }
 }

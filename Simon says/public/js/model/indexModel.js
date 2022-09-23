@@ -2,9 +2,10 @@ export class indexModel {
     constructor() {
         this._onGame = false;
         this._loose = false;
+        this._round = 0;
         this._transitionTime = -1;
         this._sequence = [];
-        this._userSequence = [];
+        this._userContSequence = 0;
         this._score = [];
     }
     get onGame() {
@@ -19,6 +20,12 @@ export class indexModel {
     set loose(value) {
         this._loose = value;
     }
+    get round() {
+        return this._round;
+    }
+    set round(value) {
+        this._round = value;
+    }
     get transitionTime() {
         return this._transitionTime;
     }
@@ -31,11 +38,11 @@ export class indexModel {
     pushToSequence(value) {
         this._sequence.push(value);
     }
-    get userSequence() {
-        return this._userSequence;
+    get userContSequence() {
+        return this._userContSequence;
     }
-    pushToUserSequence(value) {
-        this._userSequence.push(value);
+    set userContSequence(value) {
+        this._userContSequence = value;
     }
     clearSequences() {
         this._sequence = [];
@@ -45,5 +52,13 @@ export class indexModel {
     }
     pushToScore(value) {
         this._score.push(value);
+    }
+    reset() {
+        this._onGame = false;
+        this._loose = false;
+        this._round = 0;
+        this._transitionTime = -1;
+        this._sequence = [];
+        this._userContSequence = 0;
     }
 }
