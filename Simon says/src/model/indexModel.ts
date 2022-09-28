@@ -77,6 +77,11 @@ export class indexModel {
         this._sequence.push(value);
     }
 
+    public clearSequence(){
+
+        this._sequence = [];
+    }
+
     public get userContSequence() {
 
         return this._userContSequence;

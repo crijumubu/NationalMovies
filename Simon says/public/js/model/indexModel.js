@@ -45,6 +45,9 @@ export class indexModel {
     pushToSequence(value) {
         this._sequence.push(value);
     }
+    clearSequence() {
+        this._sequence = [];
+    }
     get userContSequence() {
         return this._userContSequence;
     }

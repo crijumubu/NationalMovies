@@ -45,9 +45,12 @@ export class indexController {
         }
     }
     generateSequence() {
-        let random = Math.floor(Math.random() * 4);
-        let button = this.view.simonButtons[random];
-        this.model.pushToSequence(button);
+        this.model.clearSequence();
+        for (let i = 0; i < this.model.round; i++) {
+            let random = Math.floor(Math.random() * 4);
+            let button = this.view.simonButtons[random];
+            this.model.pushToSequence(button);
+        }
     }
     showSequence() {
         let i = 0;
@@ -68,9 +71,9 @@ export class indexController {
     gameOver() {
         this.view.addToModalNewScore();
         this.view.displayModal('block');
-        let buttonSubmit = document.getElementsByClassName('submit')[0];
+        let buttonSubmit = this.view.getElement('submit');
         buttonSubmit.addEventListener('click', () => {
-            let input = document.getElementsByClassName('name')[0];
+            let input = this.view.getElement('name');
             if (input.value != '') {
                 this.model.pushToScore({ name: input.value, level: Object.keys(this.model.level).find(key => this.model.level[key] === this.model.transitionTime), score: this.model.round });
                 this.model.reset();
@@ -87,12 +90,11 @@ export class indexController {
     }
     play(level) {
         this.model.transitionTime = this.model.level[level];
-        console.log(this.model.transitionTime);
         this.view.roundCounter(true);
         this.round();
     }
     addModalEvents() {
-        let modalsBtn = document.getElementsByClassName('btn');
+        let modalsBtn = this.view.getElements('btn');
         for (let i = 0; i < modalsBtn.length; i++) {
             modalsBtn[i].addEventListener('click', () => {
                 this.view.displayModal('block');
@@ -102,7 +104,7 @@ export class indexController {
                 else if (i == 1) {
                     this.bestScores();
                 }
-                let closeModalBtn = document.getElementsByClassName('close')[0];
+                let closeModalBtn = this.view.getElement('close');
                 closeModalBtn.addEventListener('click', () => {
                     this.view.displayModal('none');
                 });
@@ -111,11 +113,11 @@ export class indexController {
     }
     userLevels() {
         this.view.addToModalLevels();
-        const levelBtn = document.getElementsByClassName('levelBtn');
-        for (let i = 0; i < levelBtn.length; i++) {
-            levelBtn[i].addEventListener('click', () => {
+        const levelsBtn = this.view.getElements('levelBtn');
+        for (let i = 0; i < levelsBtn.length; i++) {
+            levelsBtn[i].addEventListener('click', () => {
                 this.view.displayModal('none');
-                this.play(levelBtn[i].textContent);
+                this.play(levelsBtn[i].textContent);
             });
         }
     }

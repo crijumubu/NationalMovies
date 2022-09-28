@@ -1,6 +1,7 @@
 export class indexView {
     constructor() {
         this.getElement = (selector) => document.getElementsByClassName(selector)[0];
+        this.getElements = (selector) => document.getElementsByClassName(selector);
         this._display = this.getElement('modal');
     }
     set display(display) {
@@ -30,7 +31,7 @@ export class indexView {
     addToModalLevels() {
         const levels = ['Easy', 'Intermediate', 'Hard'];
         this.addToModalHeader('Levels', true);
-        this._display = document.getElementsByClassName('modalInformation')[0];
+        this._display = this.getElement('modalInformation');
         for (let i = 0; i < levels.length; i++) {
             const levelBtn = document.createElement("button");
             levelBtn.className = 'btn levelBtn';
@@ -40,7 +41,7 @@ export class indexView {
     }
     addToModalScore(scores) {
         this.addToModalHeader('Score', true);
-        this._display = document.getElementsByClassName('modalInformation')[0];
+        this._display = this.getElement('modalInformation');
         if (scores.length != 0) {
             this.addToDisplayString(`<h2 class='scoreSubheader'>Name</h2> <h2 class='scoreSubheader'>Level</h2> <h2 class='scoreSubheader'>Result</h2>`);
             for (let i = 0; i < 10; i++) {
@@ -58,7 +59,7 @@ export class indexView {
     }
     addToModalNewScore() {
         this.addToModalHeader('Game over', false);
-        this._display = document.getElementsByClassName('modalInformation')[0];
+        this._display = this.getElement('modalInformation');
         this._display.innerHTML = "";
         this.addToDisplayString(`<form> <label class='labelName' for='name'>Input your name:</label> <input type='text' id='name' class='name' name='name' required> <input type='submit' class='btn submit last' value='Submit'> </form>`);
     }
@@ -79,8 +80,8 @@ export class indexView {
         }
     }
     roundCounter(indicator) {
-        let buttonsContainer = document.getElementsByClassName('gridButtons')[0];
-        let roundContainer = document.getElementsByClassName('roundContainer')[0];
+        let buttonsContainer = this.getElement('gridButtons');
+        let roundContainer = this.getElement('roundContainer');
         if (indicator) {
             roundContainer.style.display = 'block';
             buttonsContainer.style.display = 'none';
@@ -91,7 +92,7 @@ export class indexView {
         }
     }
     updateCounter(value) {
-        let element = document.getElementsByClassName('roundCount')[0];
+        let element = this.getElement('roundCount');
         element.innerHTML = value;
     }
 }

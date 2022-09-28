@@ -7,7 +7,8 @@ export class indexView{
         this._display = this.getElement('modal');
     }
 
-    private getElement = (selector: string): HTMLElement | null => document.getElementsByClassName(selector)[0]! as HTMLElement;
+    public getElement = (selector: string): HTMLElement | null => document.getElementsByClassName(selector)[0]! as HTMLElement;
+    public getElements = (selector: string): any => document.getElementsByClassName(selector)!;
 
     public set display(display: HTMLElement) {
 
@@ -52,7 +53,7 @@ export class indexView{
         const levels : string[] = ['Easy', 'Intermediate', 'Hard'];
 
         this.addToModalHeader('Levels', true);
-        this._display = document.getElementsByClassName('modalInformation')[0];
+        this._display = this.getElement('modalInformation');
 
         for (let i = 0; i < levels.length; i++){
 
@@ -67,7 +68,7 @@ export class indexView{
     public addToModalScore(scores: any[]){
         
         this.addToModalHeader('Score', true);
-        this._display = document.getElementsByClassName('modalInformation')[0];
+        this._display = this.getElement('modalInformation');
         
         if (scores.length != 0){
 
@@ -90,7 +91,7 @@ export class indexView{
 
         this.addToModalHeader('Game over', false);
 
-        this._display = document.getElementsByClassName('modalInformation')[0];
+        this._display = this.getElement('modalInformation');
         this._display.innerHTML = "";
 
         this.addToDisplayString(`<form> <label class='labelName' for='name'>Input your name:</label> <input type='text' id='name' class='name' name='name' required> <input type='submit' class='btn submit last' value='Submit'> </form>`);
@@ -119,8 +120,8 @@ export class indexView{
 
     public roundCounter(indicator : boolean){
 
-        let buttonsContainer = document.getElementsByClassName('gridButtons')[0] as HTMLElement;
-        let roundContainer = document.getElementsByClassName('roundContainer')[0] as HTMLElement;
+        let buttonsContainer = this.getElement('gridButtons')!;
+        let roundContainer = this.getElement('roundContainer')!;
 
         if (indicator){
 
@@ -135,7 +136,7 @@ export class indexView{
 
     public updateCounter(value : string){
 
-        let element = document.getElementsByClassName('roundCount')[0] as HTMLElement;
+        let element = this.getElement('roundCount') as HTMLElement;
         element.innerHTML = value;
     }
 }
