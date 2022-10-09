@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Luke Skywalker",
+        "level": "Easy",
+        "score": "77"
+    },
+    {
+        "name": "C-3PO",
+        "level": "Hard",
+        "score": "20"
+    },
+    {
+        "name": "R2-D2",
+        "level": "Intermediate",
+        "score": "31"
+    }
+]
