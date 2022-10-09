@@ -52,11 +52,6 @@ export class indexModel {
         return this._level;
     }
 
-    // public set level(value : string){
-
-    //     this._level = value;
-    // }
-
     public get transitionTime(){
 
         return this._transitionTime;
