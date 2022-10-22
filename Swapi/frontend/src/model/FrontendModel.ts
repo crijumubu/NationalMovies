@@ -3,11 +3,7 @@ export class FrontendModel {
     public url: string;
 
     constructor () {
-        /* Opcion 1 - Solicitar la informacion directamente desde la API online */
-        this.url = 'https://swapi.dev/api/'; 
-
-        /* Opcion 2 - Solicitar la informacion a traves del backend el cual para este caso se encuentra alojado en una maquina virtual con una direccion ip dentro de mi red */
-        //this.url = 'http://192.168.12.22:5500/api/';
+        this.url = 'http://localhost:1802/api/';
     }
 
     public getPeopleByID(id: number, fn: Function): void {

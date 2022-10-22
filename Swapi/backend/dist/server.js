@@ -32,7 +32,7 @@ class Server {
     constructor() {
         this.config = () => {
             const cors = require('cors');
-            this.backend.set('port', 5500);
+            this.backend.set('port', 1802);
             this.backend.use((0, express_1.urlencoded)({ extended: true }));
             this.backend.use((0, express_1.json)());
             this.backend.use(cors());
