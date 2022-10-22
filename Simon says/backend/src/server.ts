@@ -17,7 +17,7 @@ class Server {
     public config = (): void => {
         const cors = require('cors');
 
-        this.backend.set('port', 5500);
+        this.backend.set('port', 1802);
 
         this.backend.use(urlencoded({extended: true}));
         this.backend.use(json());  

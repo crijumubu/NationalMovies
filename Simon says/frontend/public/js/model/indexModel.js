@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 export class indexModel {
     constructor() {
         this._score = [];
-        this._url = 'http://192.168.0.15:5500'; // URL del backend el cual se encuentra alojado en una maquina virtual dentro de mi misma red
+        this._url = 'http://localhost:1802';
         this.httpPeople = (url, method) => __awaiter(this, void 0, void 0, function* () {
             const response = yield fetch(url, { method: method });
             const data = yield response.json();

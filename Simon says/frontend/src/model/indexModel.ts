@@ -8,7 +8,7 @@ export class indexModel {
     private _userContSequence : number;
     private _score: any[] = [];
     private _sounds : any;
-    private _url = 'http://192.168.0.15:5500'; // URL del backend el cual se encuentra alojado en una maquina virtual dentro de mi misma red
+    private _url = 'http://localhost:1802';
 
     constructor() {
 
