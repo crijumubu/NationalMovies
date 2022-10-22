@@ -8,7 +8,8 @@ const backendController_1 = __importDefault(require("../controller/backendContro
 class BackendRoute {
     constructor() {
         this.config = () => {
-            this.router.get('/', this.backendController.index);
+            this.router.post('/newscore', this.backendController.newScore);
+            this.router.get('/score', this.backendController.score);
         };
         this.router = (0, express_1.Router)();
         this.backendController = new backendController_1.default();

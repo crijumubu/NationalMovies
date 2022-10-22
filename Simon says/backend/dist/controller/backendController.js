@@ -6,7 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const backendModel_1 = __importDefault(require("../model/backendModel"));
 class BackendController {
     constructor() {
-        this.index = (req, res) => { res.render('index.html'); };
+        this.score = (req, res) => { res.send(this.model.score); };
+        this.newScore = (req, res) => {
+            const score = req.body;
+            this.model.newScore(score);
+            res.send('Success!');
+        };
         this.model = new backendModel_1.default();
     }
 }

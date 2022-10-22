@@ -31,17 +31,14 @@ const backendRoute_1 = __importDefault(require("./routes/backendRoute"));
 class Server {
     constructor() {
         this.config = () => {
-            this.backend.set('port', 1802);
+            const cors = require('cors');
+            this.backend.set('port', 5500);
             this.backend.use((0, express_1.urlencoded)({ extended: true }));
             this.backend.use((0, express_1.json)());
-            const path = require('path');
-            this.backend.use(express_1.default.static(path.join(__dirname, '../../frontend/public')));
-            this.backend.set('views', path.join(__dirname, '../../frontend/public/views'));
-            this.backend.set('view engine', 'ejs');
-            this.backend.engine('html', require('ejs').renderFile);
+            this.backend.use(cors());
         };
         this.route = () => {
-            this.backend.use('/api', this.backendRoute.router);
+            this.backend.use('/', this.backendRoute.router);
         };
         this.start = () => {
             this.backend.listen(this.backend.get('port'), () => {

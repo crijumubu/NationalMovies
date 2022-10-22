@@ -15,21 +15,17 @@ class Server {
     }
 
     public config = (): void => {
-        this.backend.set('port', 1802);
+        const cors = require('cors');
+
+        this.backend.set('port', 5500);
+
         this.backend.use(urlencoded({extended: true}));
         this.backend.use(json());  
-
-        const path = require('path');
-
-        this.backend.use(express.static(path.join(__dirname, '../../frontend/public')));
-
-        this.backend.set('views', path.join(__dirname, '../../frontend/public/views'));
-        this.backend.set('view engine', 'ejs');
-        this.backend.engine('html', require('ejs').renderFile);
+        this.backend.use(cors());
     }
 
     public route = (): void => {
-        this.backend.use('/api', this.backendRoute.router);
+        this.backend.use('/', this.backendRoute.router);
     }
 
     public start = (): void => {

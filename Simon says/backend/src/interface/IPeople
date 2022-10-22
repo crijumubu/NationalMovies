@@ -1,0 +1,5 @@
+export interface IPeople {
+    name: string;
+    level: string;
+    score: number;
+}

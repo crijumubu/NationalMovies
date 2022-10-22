@@ -111,7 +111,9 @@ export class indexController {
 
             if (input.value != ''){
 
-                this.model.pushToScore({name: input.value, level: Object.keys(this.model.level).find(key => this.model.level[key] === this.model.transitionTime) , score: this.model.round});
+                this.model.postScores(
+                    JSON.stringify({name: input.value, level: Object.keys(this.model.level).find(key => this.model.level[key] === this.model.transitionTime) , score: this.model.round})
+                );
                 this.model.reset();
                 this.view.displayModal('none');
             }
@@ -173,10 +175,10 @@ export class indexController {
         }
     }
 
-    public bestScores(): void{
+    public bestScores() : void{
 
         this.view.displayModal('block');
-
+        
         let score = JSON.parse(localStorage.getItem("score") || "[]");
         score.sort(function (a : any, b : any) {
 

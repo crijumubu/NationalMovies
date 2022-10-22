@@ -9,8 +9,16 @@ class BackendController {
         this.model = new BackendModel();
     }
 
-    public index = (req: Request, res: Response) => {res.render('index.html')};
+    public score = (req: Request, res: Response) => {res.send(this.model.score)};
 
+    public newScore = (req: Request, res: Response) => {
+        
+        const score : {name: string, level: string, score: number} = req.body;
+        this.model.newScore(score);
+
+        res.send('Success!');
+
+    };
 }
 
 export default BackendController;

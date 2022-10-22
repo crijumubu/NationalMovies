@@ -6,8 +6,9 @@ export class indexModel {
     private _transitionTime : number;
     private _sequence: HTMLElement[];
     private _userContSequence : number;
-    private _score: any[];
+    private _score: any[] = [];
     private _sounds : any;
+    private _url = 'http://192.168.0.15:5500'; // URL del backend el cual se encuentra alojado en una maquina virtual dentro de mi misma red
 
     constructor() {
 
@@ -17,7 +18,7 @@ export class indexModel {
         this._transitionTime = -1;
         this._sequence = [];
         this._userContSequence = 0;
-        this._score = JSON.parse(localStorage.getItem("score") || "[]");
+        this.getScores();
         this._sounds = {
             'G' : new Audio('./../../public/resources/greenSound.mp3'),
             'R' : new Audio('./../../public/resources/redSound.mp3'),
@@ -87,12 +88,6 @@ export class indexModel {
         this._userContSequence = value;
     }
 
-    public pushToScore(value : any){
-
-        this._score.push(value);
-        localStorage.setItem("score", JSON.stringify(this._score));
-    }
-
     public get sounds(){
 
         return this._sounds;
@@ -106,4 +101,35 @@ export class indexModel {
         this._sequence = [];
         this._userContSequence = 0;
     }
+
+    public getScores() {
+        this.httpPeople(`${this._url}/score`, 'get');
+    }
+
+    public httpPeople = async (url: string, method: string) => {
+
+        const response = await fetch(url, {method: method});
+        const data = await response.json();
+
+        this.loadToLocalStorage(data);
+    }
+
+    public loadToLocalStorage(data : any){
+
+        for (let i=0; i<data.length; i++){
+            this._score.push(data[i]);
+        }
+
+        localStorage.setItem("score", JSON.stringify(this._score));
+    }
+    
+    public postScores(value : any) {
+        this.sendPeople(`${this._url}/newscore`, 'post', value);
+    }
+
+    public sendPeople = async (url: string, method: string, value: any) => {
+
+        const response = await fetch(url, {method: method, body: value,  headers: {'Content-Type': 'application/json'}});
+    }
+
 }

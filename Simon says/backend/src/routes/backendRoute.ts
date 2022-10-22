@@ -13,7 +13,8 @@ class BackendRoute {
     }
 
     public config = (): void => {
-        this.router.get('/', this.backendController.index);
+        this.router.post('/newscore', this.backendController.newScore);
+        this.router.get('/score', this.backendController.score);
     }
 
 }
