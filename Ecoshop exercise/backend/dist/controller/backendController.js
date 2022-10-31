@@ -12,28 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const model_1 = __importDefault(require("../model/model"));
-//import Products from "../model/products";
+const backendModel_1 = __importDefault(require("../model/backendModel"));
+const productsModel = require("../model/productModel");
 class Controller {
     constructor() {
-        this.model = new model_1.default();
+        this.model = new backendModel_1.default();
     }
     index(req, res) {
         res.send("Welcome to Ecoshop backend!");
     }
     postProduct(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const productsModel = require("../model/products");
             const product = productsModel(req.body);
             product.save().then((data) => res.json(data));
         });
     }
     getProducts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const productsModel = require("../model/products");
             const data = yield productsModel.find();
             res.json(data);
-            //productsModel.find().then((data: any) => res.json(data));
         });
     }
 }

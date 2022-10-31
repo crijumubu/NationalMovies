@@ -1,17 +1,19 @@
 import express, {Application, json, urlencoded} from "express";
-import mongoose from "mongoose";
+import mongoDatabase from "./database/mongoDatabase";
+import backendRoute from "./routes/backendRoute";
 import dotenv from "dotenv";
-import Route from "./routes/route";
 
 class Server {
 
     private backend: Application;
-    private router: Route;
+    private router: backendRoute;
+    private mongo: mongoDatabase; 
 
     constructor(){
 
         this.backend = express();
-        this.router = new Route();
+        this.router = new backendRoute();
+        this.mongo = new mongoDatabase();
         this.config();
         this.route();
         this.start();
@@ -40,9 +42,7 @@ class Server {
             console.log("Server on port:", this.backend.get("port"));
         });
 
-        mongoose.connect(process.env.MongoDB!).then(() => {
-            console.log("Connected to MongoDB Atlas");
-        });
+        this.mongo.connect();
     }
 }
 

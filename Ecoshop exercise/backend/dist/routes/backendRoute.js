@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const controller_1 = __importDefault(require("../controller/controller"));
+const backendController_1 = __importDefault(require("../controller/backendController"));
 class Route {
     constructor() {
         this.router = (0, express_1.Router)();
-        this.controller = new controller_1.default();
+        this.controller = new backendController_1.default();
         this.config();
     }
     config() {

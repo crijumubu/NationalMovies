@@ -27,14 +27,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
-const mongoDatabase_1 = __importDefault(require("./database/mongoDatabase"));
-const backendRoute_1 = __importDefault(require("./routes/backendRoute"));
+const mongo_1 = __importDefault(require("./database/mongo"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const route_1 = __importDefault(require("./routes/route"));
 class Server {
     constructor() {
         this.backend = (0, express_1.default)();
-        this.router = new backendRoute_1.default();
-        this.mongo = new mongoDatabase_1.default();
+        this.router = new route_1.default();
+        this.mongo = new mongo_1.default();
         this.config();
         this.route();
         this.start();
