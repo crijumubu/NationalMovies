@@ -21,16 +21,37 @@ class Controller {
     index(req, res) {
         res.send("Welcome to Ecoshop backend!");
     }
+    getProducts(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const products = yield productsModel.find();
+            res.json(products);
+        });
+    }
+    getProductByTitle(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { title } = req.params;
+            const products = yield productsModel.find({ $text: { $search: title } });
+            res.json(products);
+        });
+    }
+    getProductByPrice(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { low, upper } = req.params;
+            const products = yield productsModel.find({ 'price': { $gte: low, $lte: upper } });
+            res.json(products);
+        });
+    }
+    getImage(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const product = yield productsModel.findOne({ 'id': id });
+            res.json(product['image']);
+        });
+    }
     postProduct(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const product = productsModel(req.body);
             product.save().then((data) => res.json(data));
-        });
-    }
-    getProducts(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield productsModel.find();
-            res.json(data);
         });
     }
 }
