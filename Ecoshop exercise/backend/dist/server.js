@@ -27,34 +27,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
-const mongoDatabase_1 = __importDefault(require("./database/mongoDatabase"));
-const backendRoute_1 = __importDefault(require("./routes/backendRoute"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
+const productsRoute_1 = __importDefault(require("./routes/productsRoute"));
+const clientRoute_1 = __importDefault(require("./routes/clientRoute"));
 class Server {
     constructor() {
+        this.config = () => {
+            this.backend.set("port", process.env.PORT);
+            this.backend.use((0, express_1.urlencoded)({ extended: true }));
+            this.backend.use((0, express_1.json)());
+            this.backend.use((0, cors_1.default)());
+            dotenv_1.default.config();
+        };
+        this.route = () => {
+            this.backend.use(`${process.env.ROOT}`, this.productsRouter.router);
+            this.backend.use('/', this.clientRouter.router);
+            this.backend.use('*', this.clientRouter.router);
+        };
+        this.start = () => {
+            this.backend.listen(process.env.PORT, () => {
+                console.log("Server on port:", process.env.PORT);
+            });
+        };
         this.backend = (0, express_1.default)();
-        this.router = new backendRoute_1.default();
-        this.mongo = new mongoDatabase_1.default();
+        this.productsRouter = new productsRoute_1.default();
+        this.clientRouter = new clientRoute_1.default();
         this.config();
         this.route();
         this.start();
-    }
-    config() {
-        const cors = require("cors");
-        this.backend.set("port", 1802);
-        this.backend.use((0, express_1.urlencoded)({ extended: true }));
-        this.backend.use((0, express_1.json)());
-        this.backend.use(cors());
-        dotenv_1.default.config();
-    }
-    route() {
-        this.backend.use("/", this.router.router);
-    }
-    start() {
-        this.backend.listen(this.backend.get("port"), () => {
-            console.log("Server on port:", this.backend.get("port"));
-        });
-        this.mongo.connect();
     }
 }
 const server = new Server();

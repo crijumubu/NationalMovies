@@ -1,48 +1,49 @@
 import express, {Application, json, urlencoded} from "express";
-import mongoDatabase from "./database/mongoDatabase";
-import backendRoute from "./routes/backendRoute";
 import dotenv from "dotenv";
+import cors from "cors";
+
+import productsRoute from "./routes/productsRoute";
+import clientRoute from "./routes/clientRoute";
 
 class Server {
 
-    private backend: Application;
-    private router: backendRoute;
-    private mongo: mongoDatabase; 
+    private backend: Application; 
+    private productsRouter: productsRoute;
+    private clientRouter: clientRoute;
 
     constructor(){
 
         this.backend = express();
-        this.router = new backendRoute();
-        this.mongo = new mongoDatabase();
+        this.productsRouter = new productsRoute();
+        this.clientRouter = new clientRoute();
         this.config();
         this.route();
         this.start();
-
     }
 
-    public config(){
+    public config = () => {
 
-        const cors = require("cors");
-        this.backend.set("port", 1802);
+        this.backend.set("port", process.env.PORT);
         this.backend.use(urlencoded({extended: true}));
         this.backend.use(json());
         this.backend.use(cors());
         dotenv.config();
-
     }
 
-    public route(){
+    public route = () => {
 
-        this.backend.use("/", this.router.router);
+        this.backend.use(`${process.env.ROOT}`, this.productsRouter.router);
+
+        this.backend.use('/', this.clientRouter.router);
+        this.backend.use('*', this.clientRouter.router);
     }
 
-    public start(){
+    public start = () => {
 
-        this.backend.listen(this.backend.get("port"), () => {
-            console.log("Server on port:", this.backend.get("port"));
+        this.backend.listen(process.env.PORT, () => {
+            
+            console.log("Server on port:", process.env.PORT);
         });
-
-        this.mongo.connect();
     }
 }
 

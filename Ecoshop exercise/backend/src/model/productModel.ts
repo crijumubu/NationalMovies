@@ -1,33 +1,57 @@
-const {Schema, model} = require("mongoose");
+import mongo from "../database/mongo/mongo";
+import IProduct from "src/database/mongo/interface/IProduct";
 
 class productModel{
 
-    private productsSchema: typeof Schema;
+    private mongo : mongo;
 
     constructor(){
 
-        this.productsSchema = new Schema({
-            id: Number,
-            name: String,
-            detail: String,
-            description: String,
-            brand: String,
-            price: Number,
-            discount: Number,
-            image: String
-        }, 
-        { 
-            versionKey: false 
-        });
-
-        this.exportSchema();
+        this.mongo = new mongo();
     }
 
-    exportSchema(){
+    public getProducts = async (page: number, fn: Function) => {
+        
+        this.mongo.connect();
 
-        module.exports = model('products', this.productsSchema);
+        let low = ((page - 1) * 12) + 1;
+        let upper = (page * 12);
+
+        const products = await this.mongo.model.find({'id' : {$gte : low, $lte : upper}});
+        fn(products);
     }
 
+    public getProductById = async (id: number, fn: Function) => {
+        
+        this.mongo.connect();
+
+        const products = await this.mongo.model.find({'id': id});
+        fn(products);
+    }
+
+    public getProductByName = async (name: string, fn: Function) => {
+
+        this.mongo.connect();
+        
+        const products = await this.mongo.model.find({ $text: { $search: name } });
+        fn(products);
+    }
+
+    public getProductByPrice = async (low: number, upper: number, fn:Function) => {
+
+        this.mongo.connect();
+
+        const products = await this.mongo.model.find({'price' : {$gte : low, $lte : upper}});
+        fn(products);
+    }
+
+    public getProductImage = async (id: number, fn: Function) => {
+
+        this.mongo.connect();
+
+        const product = await this.mongo.model.findOne({'id' : id});
+        fn(product['image']);
+    }
 }
 
-const product = new productModel();
+export default productModel;
