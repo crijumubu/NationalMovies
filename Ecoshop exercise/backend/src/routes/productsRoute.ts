@@ -16,9 +16,9 @@ class productsRoute{
     public config = () => {
         
         this.router.get("/products/:page", this.controller.getProducts);
-        this.router.get("/products/:id", this.controller.getProductById);
-        this.router.get("/products/:name", this.controller.getProductByName);
-        this.router.get("/products/:low&:upper", this.controller.getProductByPrice);
+        this.router.get("/products/:name", this.controller.getProductsByName);
+        this.router.get("/products/:low&:upper", this.controller.getProductsByPrice);
+        this.router.get("/product/:id", this.controller.getProductById);
         this.router.get("/images/:id", this.controller.getProductImage);
     }
 }

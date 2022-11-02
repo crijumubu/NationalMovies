@@ -16,32 +16,32 @@ const mongo_1 = __importDefault(require("../database/mongo/mongo"));
 class productModel {
     constructor() {
         this.getProducts = (page, fn) => __awaiter(this, void 0, void 0, function* () {
-            this.mongo.connect();
             let low = ((page - 1) * 12) + 1;
             let upper = (page * 12);
+            this.mongo.connect();
             const products = yield this.mongo.model.find({ 'id': { $gte: low, $lte: upper } });
             fn(products);
         });
-        this.getProductById = (id, fn) => __awaiter(this, void 0, void 0, function* () {
-            this.mongo.connect();
-            const products = yield this.mongo.model.find({ 'id': id });
-            fn(products);
-        });
-        this.getProductByName = (name, fn) => __awaiter(this, void 0, void 0, function* () {
+        this.getProductsByName = (name, fn) => __awaiter(this, void 0, void 0, function* () {
             this.mongo.connect();
             const products = yield this.mongo.model.find({ $text: { $search: name } });
             fn(products);
         });
-        this.getProductByPrice = (low, upper, fn) => __awaiter(this, void 0, void 0, function* () {
+        this.getProductsByPrice = (low, upper, fn) => __awaiter(this, void 0, void 0, function* () {
             this.mongo.connect();
             const products = yield this.mongo.model.find({ 'price': { $gte: low, $lte: upper } });
             fn(products);
         });
-        this.getProductImage = (id, fn) => __awaiter(this, void 0, void 0, function* () {
+        this.getProductById = (id, fn) => __awaiter(this, void 0, void 0, function* () {
             this.mongo.connect();
-            const product = yield this.mongo.model.findOne({ 'id': id });
-            fn(product['image']);
+            const products = yield this.mongo.model.findOne({ 'id': id });
+            fn(products);
         });
+        this.getProductImage = (id, fn) => {
+            this.mongo.connect();
+            const product = `./src/resources/${id}.jpg`;
+            fn(product);
+        };
         this.mongo = new mongo_1.default();
     }
 }

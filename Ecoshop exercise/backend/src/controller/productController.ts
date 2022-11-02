@@ -20,21 +20,11 @@ class productController{
         });
     }
 
-    public getProductById = (req: Request, res: Response) => {
-        
-        const {id} = req.params;
-
-        this.model.getProductById(parseInt(id), (row: any) => {
-
-            res.json(row);
-        });
-    }
-
-    public getProductByName = (req: Request, res: Response) => {
+    public getProductsByName = (req: Request, res: Response) => {
 
         const {name} = req.params;
         
-        this.model.getProductByName(name, (row: any) => {
+        this.model.getProductsByName(name, (row: any) => {
 
             if (row){
 
@@ -46,11 +36,11 @@ class productController{
         });
     }
 
-    public getProductByPrice = (req: Request, res: Response) => {
+    public getProductsByPrice = (req: Request, res: Response) => {
 
         const {low, upper} = req.params;
 
-        this.model.getProductByPrice(parseFloat(low), parseFloat(upper), (row: any) => {
+        this.model.getProductsByPrice(parseFloat(low), parseFloat(upper), (row: any) => {
 
             if (row){
 
@@ -62,15 +52,25 @@ class productController{
         });
     }
 
+    public getProductById = (req: Request, res: Response) => {
+        
+        const {id} = req.params;
+
+        this.model.getProductById(parseInt(id), (row: any) => {
+
+            res.json(row);
+        });
+    }
+
     public getProductImage = (req: Request, res: Response) => {
         
         const {id} = req.params;
 
-        this.model.getProductImage(parseInt(id), (row: string) => {
+        this.model.getProductImage(parseInt(id), (row: any) => {
 
             if (row){
 
-                res.send(row);
+                res.download(row);
             } else{
 
                 return res.status(404).json({ error: false, message: 'Product not found by id!' });

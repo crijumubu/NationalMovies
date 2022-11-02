@@ -12,15 +12,9 @@ class productController {
                 res.json(row);
             });
         };
-        this.getProductById = (req, res) => {
-            const { id } = req.params;
-            this.model.getProductById(parseInt(id), (row) => {
-                res.json(row);
-            });
-        };
-        this.getProductByName = (req, res) => {
+        this.getProductsByName = (req, res) => {
             const { name } = req.params;
-            this.model.getProductByName(name, (row) => {
+            this.model.getProductsByName(name, (row) => {
                 if (row) {
                     res.json(row);
                 }
@@ -29,9 +23,9 @@ class productController {
                 }
             });
         };
-        this.getProductByPrice = (req, res) => {
+        this.getProductsByPrice = (req, res) => {
             const { low, upper } = req.params;
-            this.model.getProductByPrice(parseFloat(low), parseFloat(upper), (row) => {
+            this.model.getProductsByPrice(parseFloat(low), parseFloat(upper), (row) => {
                 if (row) {
                     res.json(row);
                 }
@@ -40,11 +34,17 @@ class productController {
                 }
             });
         };
+        this.getProductById = (req, res) => {
+            const { id } = req.params;
+            this.model.getProductById(parseInt(id), (row) => {
+                res.json(row);
+            });
+        };
         this.getProductImage = (req, res) => {
             const { id } = req.params;
             this.model.getProductImage(parseInt(id), (row) => {
                 if (row) {
-                    res.send(row);
+                    res.download(row);
                 }
                 else {
                     return res.status(404).json({ error: false, message: 'Product not found by id!' });
