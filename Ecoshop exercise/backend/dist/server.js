@@ -38,7 +38,6 @@ class Server {
             this.backend.use((0, express_1.urlencoded)({ extended: true }));
             this.backend.use((0, express_1.json)());
             this.backend.use((0, cors_1.default)());
-            dotenv_1.default.config();
         };
         this.route = () => {
             this.backend.use(`${process.env.ROOT}`, this.productsRouter.router);
@@ -50,6 +49,7 @@ class Server {
                 console.log("Server on port:", process.env.PORT);
             });
         };
+        dotenv_1.default.config();
         this.backend = (0, express_1.default)();
         this.productsRouter = new productsRoute_1.default();
         this.clientRouter = new clientRoute_1.default();

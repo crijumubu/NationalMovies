@@ -3,36 +3,41 @@ import mongo from "../database/mongo/mongo";
 class productModel{
 
     private mongo : mongo;
+    private itemsPerPage : number;
 
     constructor(){
 
         this.mongo = new mongo();
+        this.itemsPerPage = 12;
     }
 
     public getProducts = async (page: number, fn: Function) => {
 
-        let low = ((page - 1) * 12) + 1;
-        let upper = (page * 12);
+        let initItem = (page - 1) * this.itemsPerPage;
 
         this.mongo.connect();
 
-        const products = await this.mongo.model.find({'id' : {$gte : low, $lte : upper}});
+        const products = await this.mongo.model.find({}).skip( initItem ).limit( this.itemsPerPage );
         fn(products);
     }
 
-    public getProductsByName = async (name: string, fn: Function) => {
+    public getProductsByName = async (name: string, page: number, fn: Function) => {
+
+        let initItem = (page - 1) * this.itemsPerPage;
 
         this.mongo.connect();
         
-        const products = await this.mongo.model.find({ $text: { $search: name } });
+        const products = await this.mongo.model.find({ $text: { $search: name } }).skip( initItem ).limit( this.itemsPerPage );
         fn(products);
     }
 
-    public getProductsByPrice = async (low: number, upper: number, fn:Function) => {
+    public getProductsByPrice = async (low: number, upper: number, page: number, fn: Function) => {
+
+        let initItem = (page - 1) * this.itemsPerPage;
 
         this.mongo.connect();
 
-        const products = await this.mongo.model.find({'price' : {$gte : low, $lte : upper}});
+        const products = await this.mongo.model.find({'price' : {$gte : low, $lte : upper}}).skip( initItem ).limit( this.itemsPerPage );
         fn(products);
     }
 

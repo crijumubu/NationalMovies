@@ -16,20 +16,21 @@ const mongo_1 = __importDefault(require("../database/mongo/mongo"));
 class productModel {
     constructor() {
         this.getProducts = (page, fn) => __awaiter(this, void 0, void 0, function* () {
-            let low = ((page - 1) * 12) + 1;
-            let upper = (page * 12);
+            let initItem = (page - 1) * this.itemsPerPage;
             this.mongo.connect();
-            const products = yield this.mongo.model.find({ 'id': { $gte: low, $lte: upper } });
+            const products = yield this.mongo.model.find({}).skip(initItem).limit(this.itemsPerPage);
             fn(products);
         });
-        this.getProductsByName = (name, fn) => __awaiter(this, void 0, void 0, function* () {
+        this.getProductsByName = (name, page, fn) => __awaiter(this, void 0, void 0, function* () {
+            let initItem = (page - 1) * this.itemsPerPage;
             this.mongo.connect();
-            const products = yield this.mongo.model.find({ $text: { $search: name } });
+            const products = yield this.mongo.model.find({ $text: { $search: name } }).skip(initItem).limit(this.itemsPerPage);
             fn(products);
         });
-        this.getProductsByPrice = (low, upper, fn) => __awaiter(this, void 0, void 0, function* () {
+        this.getProductsByPrice = (low, upper, page, fn) => __awaiter(this, void 0, void 0, function* () {
+            let initItem = (page - 1) * this.itemsPerPage;
             this.mongo.connect();
-            const products = yield this.mongo.model.find({ 'price': { $gte: low, $lte: upper } });
+            const products = yield this.mongo.model.find({ 'price': { $gte: low, $lte: upper } }).skip(initItem).limit(this.itemsPerPage);
             fn(products);
         });
         this.getProductById = (id, fn) => __awaiter(this, void 0, void 0, function* () {
@@ -47,6 +48,7 @@ class productModel {
             fn(imagePath);
         });
         this.mongo = new mongo_1.default();
+        this.itemsPerPage = 12;
     }
 }
 exports.default = productModel;

@@ -14,7 +14,7 @@ class productController{
         
         const {page} = req.params;
 
-        this.model.getProducts(parseInt(page), (row: any) => {
+        this.model.getProducts(parseInt(page), (row: JSON) => {
 
             if (Object.keys(row).length != 0){
 
@@ -28,32 +28,32 @@ class productController{
 
     public getProductsByName = (req: Request, res: Response) => {
 
-        const {name} = req.params;
+        const {name, page} = req.params;
         
-        this.model.getProductsByName(name, (row: JSON) => {
+        this.model.getProductsByName(name, parseInt(page), (row: JSON) => {
 
             if (Object.keys(row).length != 0){
 
                 res.json(row);
             } else{
 
-                return res.status(404).json({ error: false, message: 'There are no products that match with your search!' });
+                return res.status(404).json({ error: false, message: 'There are no products that match with your search in that page!' });
             }
         });
     }
 
     public getProductsByPrice = (req: Request, res: Response) => {
 
-        const {low, upper} = req.params;
+        const {low, upper, page} = req.params;
 
-        this.model.getProductsByPrice(parseInt(low), parseInt(upper), (row: JSON) => {
+        this.model.getProductsByPrice(parseInt(low), parseInt(upper), parseInt(page), (row: JSON) => {
 
             if (Object.keys(row).length != 0){
 
                 res.json(row);
             } else{
 
-                return res.status(404).json({ error: false, message: 'Products not found in that price range!' });
+                return res.status(404).json({ error: false, message: 'Products not found in that price range in that page' });
             }
         });
     }

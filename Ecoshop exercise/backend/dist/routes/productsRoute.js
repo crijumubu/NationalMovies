@@ -9,8 +9,8 @@ class productsRoute {
     constructor() {
         this.config = () => {
             this.router.get("/products/:page", this.controller.getProducts);
-            this.router.get("/products/name/:name", this.controller.getProductsByName);
-            this.router.get("/products/price/low=:low&upper=:upper", this.controller.getProductsByPrice);
+            this.router.get("/products/name/:name/:page", this.controller.getProductsByName);
+            this.router.get("/products/price/lower=:low&upper=:upper/:page", this.controller.getProductsByPrice);
             this.router.get("/product/:id", this.controller.getProductById);
             this.router.get("/images/:id", this.controller.getProductImage);
         };

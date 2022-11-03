@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import product from "./schema/productSchema";
 
-require('dotenv').config();
+//require('dotenv').config();
 
 class mongo{
 

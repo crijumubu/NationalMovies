@@ -18,24 +18,24 @@ class productController {
             });
         };
         this.getProductsByName = (req, res) => {
-            const { name } = req.params;
-            this.model.getProductsByName(name, (row) => {
+            const { name, page } = req.params;
+            this.model.getProductsByName(name, parseInt(page), (row) => {
                 if (Object.keys(row).length != 0) {
                     res.json(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'There are no products that match with your search!' });
+                    return res.status(404).json({ error: false, message: 'There are no products that match with your search in that page!' });
                 }
             });
         };
         this.getProductsByPrice = (req, res) => {
-            const { low, upper } = req.params;
-            this.model.getProductsByPrice(parseInt(low), parseInt(upper), (row) => {
+            const { low, upper, page } = req.params;
+            this.model.getProductsByPrice(parseInt(low), parseInt(upper), parseInt(page), (row) => {
                 if (Object.keys(row).length != 0) {
                     res.json(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'Products not found in that price range!' });
+                    return res.status(404).json({ error: false, message: 'Products not found in that price range in that page' });
                 }
             });
         };

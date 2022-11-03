@@ -13,6 +13,7 @@ class Server {
 
     constructor(){
 
+        dotenv.config();
         this.backend = express();
         this.productsRouter = new productsRoute();
         this.clientRouter = new clientRoute();
@@ -27,7 +28,6 @@ class Server {
         this.backend.use(urlencoded({extended: true}));
         this.backend.use(json());
         this.backend.use(cors());
-        dotenv.config();
     }
 
     public route = () => {
