@@ -9,41 +9,51 @@ class productController {
         this.getProducts = (req, res) => {
             const { page } = req.params;
             this.model.getProducts(parseInt(page), (row) => {
-                res.json(row);
+                if (Object.keys(row).length != 0) {
+                    res.json(row);
+                }
+                else {
+                    return res.status(404).json({ error: false, message: 'There are no products for that page!' });
+                }
             });
         };
         this.getProductsByName = (req, res) => {
             const { name } = req.params;
             this.model.getProductsByName(name, (row) => {
-                if (row) {
+                if (Object.keys(row).length != 0) {
                     res.json(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'Product not found!' });
+                    return res.status(404).json({ error: false, message: 'There are no products that match with your search!' });
                 }
             });
         };
         this.getProductsByPrice = (req, res) => {
             const { low, upper } = req.params;
-            this.model.getProductsByPrice(parseFloat(low), parseFloat(upper), (row) => {
-                if (row) {
+            this.model.getProductsByPrice(parseInt(low), parseInt(upper), (row) => {
+                if (Object.keys(row).length != 0) {
                     res.json(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'Products not found in that range!' });
+                    return res.status(404).json({ error: false, message: 'Products not found in that price range!' });
                 }
             });
         };
         this.getProductById = (req, res) => {
             const { id } = req.params;
             this.model.getProductById(parseInt(id), (row) => {
-                res.json(row);
+                if (row != null) {
+                    res.json(row);
+                }
+                else {
+                    return res.status(404).json({ error: false, message: 'Product not found by id!' });
+                }
             });
         };
         this.getProductImage = (req, res) => {
             const { id } = req.params;
             this.model.getProductImage(parseInt(id), (row) => {
-                if (row) {
+                if (row != '') {
                     res.download(row);
                 }
                 else {

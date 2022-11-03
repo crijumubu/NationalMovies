@@ -40,16 +40,23 @@ class productModel{
         
         this.mongo.connect();
 
-        const products = await this.mongo.model.findOne({'id': id});
-        fn(products);
+        const product = await this.mongo.model.findOne({'id': id});
+        fn(product);
     }
 
-    public getProductImage = (id: number, fn: Function) => {
+    public getProductImage = async (id: number, fn: Function) => {
 
         this.mongo.connect();
         
-        const product = `./src/resources/${id}.jpg`;
-        fn(product);
+        const product = await this.mongo.model.findOne({'id': id});
+        let imagePath = '';
+
+        if (product != null){
+
+            imagePath = `./src/resources/${id}.jpg`;
+        }
+
+        fn(imagePath);
     }
 }
 

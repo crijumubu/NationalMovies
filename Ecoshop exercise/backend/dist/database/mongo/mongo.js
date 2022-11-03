@@ -9,11 +9,12 @@ require('dotenv').config();
 class mongo {
     constructor() {
         this.connect = () => {
+            console.log('Entre');
             mongoose_1.default.connect(this.uri)
                 .then(() => {
                 console.log("Connected to MongoDB Atlas");
             })
-                .catch((error) => {
+                .catch(error => {
                 console.error('Error connecting to MongoDB Atlas: ', error);
                 return process.exit(1);
             });

@@ -16,7 +16,13 @@ class productController{
 
         this.model.getProducts(parseInt(page), (row: any) => {
 
-            res.json(row);
+            if (Object.keys(row).length != 0){
+
+                res.json(row);
+            }else {
+
+                return res.status(404).json({ error: false, message: 'There are no products for that page!' });
+            }
         });
     }
 
@@ -24,14 +30,14 @@ class productController{
 
         const {name} = req.params;
         
-        this.model.getProductsByName(name, (row: any) => {
+        this.model.getProductsByName(name, (row: JSON) => {
 
-            if (row){
+            if (Object.keys(row).length != 0){
 
                 res.json(row);
             } else{
 
-                return res.status(404).json({ error: false, message: 'Product not found!' });
+                return res.status(404).json({ error: false, message: 'There are no products that match with your search!' });
             }
         });
     }
@@ -40,14 +46,14 @@ class productController{
 
         const {low, upper} = req.params;
 
-        this.model.getProductsByPrice(parseFloat(low), parseFloat(upper), (row: any) => {
+        this.model.getProductsByPrice(parseInt(low), parseInt(upper), (row: JSON) => {
 
-            if (row){
+            if (Object.keys(row).length != 0){
 
                 res.json(row);
             } else{
 
-                return res.status(404).json({ error: false, message: 'Products not found in that range!' });
+                return res.status(404).json({ error: false, message: 'Products not found in that price range!' });
             }
         });
     }
@@ -56,9 +62,15 @@ class productController{
         
         const {id} = req.params;
 
-        this.model.getProductById(parseInt(id), (row: any) => {
+        this.model.getProductById(parseInt(id), (row: JSON) => {
 
-            res.json(row);
+            if (row != null){
+
+                res.json(row);
+            } else{
+
+                return res.status(404).json({ error: false, message: 'Product not found by id!' });
+            }
         });
     }
 
@@ -66,9 +78,9 @@ class productController{
         
         const {id} = req.params;
 
-        this.model.getProductImage(parseInt(id), (row: any) => {
+        this.model.getProductImage(parseInt(id), (row: string) => {
 
-            if (row){
+            if (row != ''){
 
                 res.download(row);
             } else{

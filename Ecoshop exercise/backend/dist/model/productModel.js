@@ -34,14 +34,18 @@ class productModel {
         });
         this.getProductById = (id, fn) => __awaiter(this, void 0, void 0, function* () {
             this.mongo.connect();
-            const products = yield this.mongo.model.findOne({ 'id': id });
-            fn(products);
-        });
-        this.getProductImage = (id, fn) => {
-            this.mongo.connect();
-            const product = `./src/resources/${id}.jpg`;
+            const product = yield this.mongo.model.findOne({ 'id': id });
             fn(product);
-        };
+        });
+        this.getProductImage = (id, fn) => __awaiter(this, void 0, void 0, function* () {
+            this.mongo.connect();
+            const product = yield this.mongo.model.findOne({ 'id': id });
+            let imagePath = '';
+            if (product != null) {
+                imagePath = `./src/resources/${id}.jpg`;
+            }
+            fn(imagePath);
+        });
         this.mongo = new mongo_1.default();
     }
 }

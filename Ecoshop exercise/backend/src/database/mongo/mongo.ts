@@ -21,7 +21,7 @@ class mongo{
 
             console.log("Connected to MongoDB Atlas");
         })
-        .catch((error) => {
+        .catch(error => {
 
             console.error('Error connecting to MongoDB Atlas: ', error);
             return process.exit(1);
