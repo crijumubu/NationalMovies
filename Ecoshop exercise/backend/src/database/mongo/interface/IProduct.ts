@@ -8,6 +8,6 @@ export default interface IProduct extends Document {
     description: string;
     brand: string;
     price: number;
-    discount: number;
+    discount: number[];
     image: string;
 }

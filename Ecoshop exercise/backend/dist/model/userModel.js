@@ -12,7 +12,7 @@ class userModel {
         this.getUser = (id, fn) => {
             this.mysqld.connection();
             const statement = this.mysqld.statement(`
-        SELECT * FROM USERS;`, [id.toString()]);
+        SELECT * FROM USERS WHERE ID_USER = ?;`, [id]);
             this.mysqld.pool.query(statement, (error, rows) => {
                 fn(error, rows);
             });

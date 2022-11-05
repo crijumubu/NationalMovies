@@ -17,12 +17,15 @@ class userController{
         this.model.getUser(id, (error: any, row: any) => {
             
             if (error) {
+
                 console.error(error);
                 return res.json({ error: true, message: 'e101' });
             }            
             if (row) {
+
                 return res.json(row);
             } else {
+                
                 return res.status(404).json({ error: false, message: 'User not found' });
             }
         });

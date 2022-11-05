@@ -19,8 +19,8 @@ class userModel{
         this.mysqld.connection();
 
         const statement = this.mysqld.statement(`
-        SELECT * FROM USERS;`,
-        [id.toString()]);
+        SELECT * FROM USERS WHERE ID_USER = ?;`,
+        [id]);
 
         this.mysqld.pool.query(statement, (error: any, rows: any) => {
             fn(error, rows);
