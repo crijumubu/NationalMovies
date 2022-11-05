@@ -30,7 +30,8 @@ const express_1 = __importStar(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const productsRoute_1 = __importDefault(require("./routes/productsRoute"));
-const clientRoute_1 = __importDefault(require("./routes/clientRoute"));
+const usersRoute_1 = __importDefault(require("./routes/usersRoute"));
+const clientsRoute_1 = __importDefault(require("./routes/clientsRoute"));
 class Server {
     constructor() {
         this.config = () => {
@@ -40,7 +41,8 @@ class Server {
             this.backend.use((0, cors_1.default)());
         };
         this.route = () => {
-            this.backend.use(`${process.env.ROOT}`, this.productsRouter.router);
+            this.backend.use(`${process.env.PRODUCTSROUTE}`, this.productsRouter.router);
+            this.backend.use(`${process.env.USERSROUTE}`, this.userRouter.router);
             this.backend.use('/', this.clientRouter.router);
             this.backend.use('*', this.clientRouter.router);
         };
@@ -52,7 +54,8 @@ class Server {
         dotenv_1.default.config();
         this.backend = (0, express_1.default)();
         this.productsRouter = new productsRoute_1.default();
-        this.clientRouter = new clientRoute_1.default();
+        this.userRouter = new usersRoute_1.default();
+        this.clientRouter = new clientsRoute_1.default();
         this.config();
         this.route();
         this.start();

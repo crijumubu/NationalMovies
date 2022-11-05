@@ -3,12 +3,14 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import productsRoute from "./routes/productsRoute";
-import clientRoute from "./routes/clientRoute";
+import usersRoute from "./routes/usersRoute";
+import clientRoute from "./routes/clientsRoute";
 
 class Server {
 
     private backend: Application; 
     private productsRouter: productsRoute;
+    private userRouter: usersRoute;
     private clientRouter: clientRoute;
 
     constructor(){
@@ -16,6 +18,7 @@ class Server {
         dotenv.config();
         this.backend = express();
         this.productsRouter = new productsRoute();
+        this.userRouter = new usersRoute();
         this.clientRouter = new clientRoute();
         this.config();
         this.route();
@@ -32,7 +35,8 @@ class Server {
 
     public route = () => {
 
-        this.backend.use(`${process.env.ROOT}`, this.productsRouter.router);
+        this.backend.use(`${process.env.PRODUCTSROUTE}`, this.productsRouter.router);
+        this.backend.use(`${process.env.USERSROUTE}`, this.userRouter.router);
 
         this.backend.use('/', this.clientRouter.router);
         this.backend.use('*', this.clientRouter.router);

@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 import product from "./schema/productSchema";
 
-//require('dotenv').config();
-
 class mongo{
 
     private uri : string;

@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const productSchema_1 = __importDefault(require("./schema/productSchema"));
-//require('dotenv').config();
 class mongo {
     constructor() {
         this.connect = () => {
