@@ -10,7 +10,7 @@ class userController {
             const { id } = req.params;
             this.model.getUser(id, (error, row) => {
                 if (error) {
-                    return res.json({ error: true, message: 'Upss, something went!' });
+                    return res.json({ error: true, message: 'Upss, something went wrong!' });
                 }
                 if (Object.keys(row).length != 0) {
                     return res.json(row);
@@ -22,33 +22,32 @@ class userController {
         };
         this.signIn = (req, res) => {
             const { email, password } = req.body;
-            this.model.signIn(email, password, (error, row) => {
+            this.model.signIn(email, password, (error, status, row) => {
                 if (error) {
-                    console.log(error);
-                    return res.json({ error: true, message: 'Upss, something went!' });
+                    return res.json({ error: true, message: 'Upss, something went wrong!' });
                 }
-                if (Object.keys(row).length != 0) {
-                    return res.json(row);
+                if (status == 1) {
+                    return res.json({ message: 'Login succesfull!', row });
+                }
+                else if (status == 0) {
+                    return res.json({ message: 'Incorrect password!' });
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'Incorrect user or password!' });
+                    return res.status(404).json({ error: false, message: 'Couldn\'t found your account!' });
                 }
             });
         };
         this.signUp = (req, res) => {
             const { name, lastname, email, password } = req.body;
-            this.model.signUp(name, lastname, email, password, (error, row) => {
+            this.model.signUp(name, lastname, email, password, (error, status) => {
                 if (error) {
-                    return res.json({ error: true, message: 'Upss, something went!' });
+                    return res.json({ error: true, message: 'Upss, something went wrong!' });
                 }
-                if (row.inUse) {
-                    return res.json({ error: false, message: 'Email already in use!' });
-                }
-                if (Object.keys(row).length != 0) {
-                    return res.json(row);
+                if (status == 1) {
+                    return res.json({ error: false, message: 'Successfull sign up!' });
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'Incorrect user or password!' });
+                    return res.json({ error: false, message: 'Email already in use!' });
                 }
             });
         };

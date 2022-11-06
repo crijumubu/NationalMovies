@@ -18,7 +18,7 @@ class userController{
             
             if (error) {
 
-                return res.json({ error: true, message: 'Upss, something went!' });
+                return res.json({ error: true, message: 'Upss, something went wrong!' });
             }            
             if (Object.keys(row).length != 0) {
 
@@ -34,19 +34,23 @@ class userController{
 
         const { email, password } = req.body;
 
-        this.model.signIn(email, password, (error: any, row: JSON) => {
+        this.model.signIn(email, password, (error: any, status: number, row: any) => {
 
             if (error) {
 
-                console.log(error);
-                return res.json({ error: true, message: 'Upss, something went!' });
+                return res.json({ error: true, message: 'Upss, something went wrong!' });
             }            
-            if (Object.keys(row).length != 0) {
+            if (status == 1) {
 
-                return res.json(row);
-            } else {
+                return res.json({ message: 'Login succesfull!', row });
+            } 
+            else if (status == 0){
 
-                return res.status(404).json({ error: false, message: 'Incorrect user or password!' });
+                return res.json({ message: 'Incorrect password!' });
+            }
+            else {
+
+                return res.status(404).json({ error: false, message: 'Couldn\'t found your account!' });
             }
         });
     }
@@ -55,28 +59,22 @@ class userController{
         
         const { name, lastname, email, password } = req.body;
 
-        this.model.signUp(name, lastname, email, password, (error: any, row: any) => {
+        this.model.signUp(name, lastname, email, password, (error: any, status: number) => {
 
             if (error) {
 
-                return res.json({ error: true, message: 'Upss, something went!' });
-            }      
-            
-            if (row.inUse){
+                return res.json({ error: true, message: 'Upss, something went wrong!' });
+            }       
+            if (status == 1){
+
+                return res.json({ error: false, message: 'Successfull sign up!' });
+            }
+            else {
 
                 return res.json({ error: false, message: 'Email already in use!' });
             }
-
-            if (Object.keys(row).length != 0) {
-
-                return res.json(row);
-            } else {
-
-                return res.status(404).json({ error: false, message: 'Incorrect user or password!' });
-            }
         });
     }
-
 }
 
 export default userController;
