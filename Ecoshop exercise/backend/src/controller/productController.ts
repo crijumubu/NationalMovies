@@ -38,7 +38,6 @@ class productController{
                 return res.status(404).json({ error: false, message: 'There are no products in database!' });
             }
         });
-
     }
 
     public getProductsByName = (req: Request, res: Response) => {

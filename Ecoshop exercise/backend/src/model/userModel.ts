@@ -24,6 +24,20 @@ class userModel{
         });
     }
 
+    public encryptPassword = async (password: string) => {
+
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
+
+        return hash;
+    }
+
+    public validatePassword = async (password: string, hash: string) => {
+
+        const validation = await bcrypt.compare(password, hash);
+        return validation;
+    }
+
     public signIn = async (email: string, password: string, fn: Function) => {
 
         this.mysqld.connection();
@@ -33,8 +47,6 @@ class userModel{
         [email]);
 
         this.mysqld.pool.query(statement, async (error: any, rows: any) => {
-
-            console.log(rows)
 
             if (rows.length > 0){
 
@@ -60,12 +72,12 @@ class userModel{
         this.mysqld.connection();
 
         let statement = this.mysqld.statement(`
-        SELECT COUNT(*) AS Count FROM USERS WHERE USER_EMAIL = ?`,
+        SELECT COUNT(*) AS Count FROM USERS WHERE USER_EMAIL = ?;`,
         [email]);
 
         this.mysqld.pool.query(statement, async (error: any, rows: any) => {
 
-            if (rows[0].Count <= 0){
+            if (rows[0].Count == 0){
 
                 const encryptPassword = await this.encryptPassword(password);
 
@@ -80,23 +92,129 @@ class userModel{
                 });
             }else{
 
-                fn(false, 0);
+                fn(error, 0);
             }
         });
     }
 
-    public encryptPassword = async (password: string) => {
+    public getFavorites = (email: string, fn: Function) => {
 
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(password, salt);
+        this.mysqld.connection();
 
-        return hash;
+        let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`,
+        [email]);
+
+        this.mysqld.pool.query(statement, (error: any, rows: any) => {
+
+            if (rows.length == 1){
+
+                const id_user = rows[0].Id;
+
+                statement = this.mysqld.statement(`
+                SELECT PRODUCT_ID_PRODUCT AS Id_product FROM FAVORITES WHERE USER_ID_USER = ?;`,
+                [id_user]);
+
+                this.mysqld.pool.query(statement, (error: any, rows: any) => {
+
+                    if (rows.length > 0) {
+
+                        fn(error, 1, rows);
+                    }else{
+
+                        fn(error, 0);
+                    }
+                });
+            }else{
+
+                fn(error, -1);
+            }
+        });
     }
 
-    public validatePassword = async (password: string, hash: string) => {
+    public addFavorite = (email: string, id_product: number, fn: Function) => {
 
-        const validation = await bcrypt.compare(password, hash);
-        return validation;
+        this.mysqld.connection();
+
+        let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`,
+        [email]);
+
+        this.mysqld.pool.query(statement, (error: any, rows: any) => {
+
+            if (rows.length == 1){
+
+                const id_user = rows[0].Id;
+
+                statement = this.mysqld.statement(`
+                SELECT COUNT(*) AS Count FROM FAVORITES WHERE USER_ID_USER = ? AND PRODUCT_ID_PRODUCT = ?;`,
+                [id_user, id_product]);
+
+                this.mysqld.pool.query(statement, (error: any, rows: any) => {
+
+                    if (rows[0].Count == 0){
+
+                        statement = this.mysqld.statement(`
+                        INSERT  INTO FAVORITES VALUES (?, ?);`,
+                        [id_user, id_product]);
+        
+                        this.mysqld.pool.query(statement, (error: any) => {
+        
+                            fn(error, 1);
+                        });
+                    }else{
+        
+                        fn(error, 0);
+                    }
+                });
+            }else{
+
+                fn(error, -1);
+            }
+        }); 
+    }
+
+    public removeFavorite = (email: string, id_product: string, fn: Function) => {
+
+        this.mysqld.connection();
+
+        let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`,
+        [email]);
+
+        this.mysqld.pool.query(statement, (error: any, rows: any) => {
+
+            if (rows.length == 1){
+
+                const id_user = rows[0].Id;
+
+                statement = this.mysqld.statement(`
+                SELECT COUNT(*) AS Count FROM FAVORITES WHERE USER_ID_USER = ? AND PRODUCT_ID_PRODUCT = ?;`,
+                [id_user, id_product]);
+
+                this.mysqld.pool.query(statement, (error: any, rows: any) => {
+                    
+                    if (rows[0].Count == 1){
+
+                        statement = this.mysqld.statement(`
+                        DELETE FROM FAVORITES WHERE USER_ID_USER = ? AND PRODUCT_ID_PRODUCT = ?;`,
+                        [id_user, id_product]);
+
+                        this.mysqld.pool.query(statement, (error: any) => {
+
+                            fn(error, 1);
+                        });
+
+                    }else{
+        
+                        fn(error, 0);
+                    }
+                });
+            }else{
+
+                fn(error, -1);
+            }
+        });
     }
 }
 
