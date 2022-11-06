@@ -8,7 +8,7 @@ class productModel{
     constructor(){
 
         this.mongo = new mongo();
-        this.itemsPerPage = 12;
+        this.itemsPerPage = parseInt(process.env.DATABASEPAGINATION || '12');
     }
 
     public getProducts = async (page: number, fn: Function) => {
@@ -19,6 +19,21 @@ class productModel{
 
         const products = await this.mongo.model.find({}).skip( initItem ).limit( this.itemsPerPage );
         fn(products);
+    }
+
+    public getLimitPrice = async(fn: Function) => {
+
+        this.mongo.connect();
+
+        const limits = await this.mongo.model.aggregate([ 
+            { "$group": { 
+                "_id": null,
+                "max": { "$max": "$price" }, 
+                "min": { "$min": "$price" } 
+            }}
+        ]);
+
+        fn(limits);   
     }
 
     public getProductsByName = async (name: string, page: number, fn: Function) => {

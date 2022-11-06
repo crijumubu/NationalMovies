@@ -17,6 +17,16 @@ class productController {
                 }
             });
         };
+        this.getLimitPrice = (req, res) => {
+            this.model.getLimitPrice((row) => {
+                if (Object.keys(row).length != 0) {
+                    res.json(row);
+                }
+                else {
+                    return res.status(404).json({ error: false, message: 'There are no products in database!' });
+                }
+            });
+        };
         this.getProductsByName = (req, res) => {
             const { name, page } = req.params;
             this.model.getProductsByName(name, parseInt(page), (row) => {

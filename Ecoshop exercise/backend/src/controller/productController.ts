@@ -26,6 +26,21 @@ class productController{
         });
     }
 
+    public getLimitPrice = (req: Request, res: Response) => {
+
+        this.model.getLimitPrice((row: JSON) => {
+
+            if (Object.keys(row).length != 0){
+
+                res.json(row);
+            }else {
+
+                return res.status(404).json({ error: false, message: 'There are no products in database!' });
+            }
+        });
+
+    }
+
     public getProductsByName = (req: Request, res: Response) => {
 
         const {name, page} = req.params;

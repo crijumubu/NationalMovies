@@ -21,6 +21,17 @@ class productModel {
             const products = yield this.mongo.model.find({}).skip(initItem).limit(this.itemsPerPage);
             fn(products);
         });
+        this.getLimitPrice = (fn) => __awaiter(this, void 0, void 0, function* () {
+            this.mongo.connect();
+            const limits = yield this.mongo.model.aggregate([
+                { "$group": {
+                        "_id": null,
+                        "max": { "$max": "$price" },
+                        "min": { "$min": "$price" }
+                    } }
+            ]);
+            fn(limits);
+        });
         this.getProductsByName = (name, page, fn) => __awaiter(this, void 0, void 0, function* () {
             let initItem = (page - 1) * this.itemsPerPage;
             this.mongo.connect();
@@ -48,7 +59,7 @@ class productModel {
             fn(imagePath);
         });
         this.mongo = new mongo_1.default();
-        this.itemsPerPage = 12;
+        this.itemsPerPage = parseInt(process.env.DATABASEPAGINATION || '12');
     }
 }
 exports.default = productModel;

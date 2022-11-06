@@ -16,6 +16,8 @@ class usersRoute{
     public config(){
         
         this.router.get('/:id', this.controller.getUser);
+        this.router.post('/login', this.controller.signIn);
+        this.router.post('/register', this.controller.signUp);
     }
 
 }
