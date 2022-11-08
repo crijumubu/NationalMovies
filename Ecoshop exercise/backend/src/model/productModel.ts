@@ -11,6 +11,15 @@ class productModel{
         this.itemsPerPage = parseInt(process.env.DATABASEPAGINATION || '12');
     }
 
+    public getTotalPages = async (fn: Function) => {
+
+        this.mongo.connect();
+
+        const total = await this.mongo.model.count({});
+        fn(Math.ceil(total / 12));
+
+    }
+
     public getProducts = async (page: number, fn: Function) => {
 
         let initItem = (page - 1) * this.itemsPerPage;
@@ -36,6 +45,14 @@ class productModel{
         fn(limits);   
     }
 
+    public getTotalProductsByName = async (name: string, fn: Function) => {
+        
+        this.mongo.connect();
+
+        const total = await this.mongo.model.count({ $text: { $search: name } });
+        fn(Math.ceil(total / 12));
+    }
+
     public getProductsByName = async (name: string, page: number, fn: Function) => {
 
         let initItem = (page - 1) * this.itemsPerPage;
@@ -44,6 +61,14 @@ class productModel{
         
         const products = await this.mongo.model.find({ $text: { $search: name } }).skip( initItem ).limit( this.itemsPerPage );
         fn(products);
+    }
+
+    public getTotalProductsByPrice = async (low: number, upper: number, fn: Function) => {
+
+        this.mongo.connect();
+
+        const total = await this.mongo.model.count({'price' : {$gte : low, $lte : upper}});
+        fn(Math.ceil(total / 12));
     }
 
     public getProductsByPrice = async (low: number, upper: number, page: number, fn: Function) => {

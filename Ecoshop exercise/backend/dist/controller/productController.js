@@ -6,6 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const productModel_1 = __importDefault(require("../model/productModel"));
 class productController {
     constructor() {
+        this.getTotalProducts = (req, res) => {
+            this.model.getTotalPages((row) => {
+                res.json(row);
+            });
+        };
         this.getProducts = (req, res) => {
             const { page } = req.params;
             this.model.getProducts(parseInt(page), (row) => {
@@ -13,7 +18,7 @@ class productController {
                     res.json(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'There are no products for that page!' });
+                    return res.status(404).json({ error: false, message: 'No hay productos para esta página!' });
                 }
             });
         };
@@ -23,8 +28,14 @@ class productController {
                     res.json(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'There are no products in database!' });
+                    return res.status(404).json({ error: false, message: 'No hay productos en la base de datos!' });
                 }
+            });
+        };
+        this.getTotalProductsByName = (req, res) => {
+            const { name } = req.params;
+            this.model.getTotalProductsByName(name, (row) => {
+                res.json(row);
             });
         };
         this.getProductsByName = (req, res) => {
@@ -34,8 +45,14 @@ class productController {
                     res.json(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'There are no products that match with your search in that page!' });
+                    return res.status(404).json({ error: false, message: 'No hay productos que coincidan con su búsqueda en esta página!' });
                 }
+            });
+        };
+        this.getTotalProductsByPrice = (req, res) => {
+            const { low, upper } = req.params;
+            this.model.getTotalProductsByPrice(parseInt(low), parseInt(upper), (row) => {
+                res.json(row);
             });
         };
         this.getProductsByPrice = (req, res) => {
@@ -45,7 +62,7 @@ class productController {
                     res.json(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'Products not found in that price range in that page' });
+                    return res.status(404).json({ error: false, message: 'No se encuentraron productos en ese rango de precios en esta página!' });
                 }
             });
         };
@@ -56,7 +73,7 @@ class productController {
                     res.json(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'Product not found by id!' });
+                    return res.status(404).json({ error: false, message: 'No hubo coincidencias de productos con ese id!' });
                 }
             });
         };
@@ -67,7 +84,7 @@ class productController {
                     res.download(row);
                 }
                 else {
-                    return res.status(404).json({ error: false, message: 'Product not found by id!' });
+                    return res.status(404).json({ error: false, message: 'No hubo coincidencias de productos con ese id!' });
                 }
             });
         };

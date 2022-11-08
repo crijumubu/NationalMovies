@@ -33,19 +33,6 @@ class mysqld {
 
         return mysql.format(statement, data);
     }
-
-    public limit = (start: number, step: number = parseInt(process.env.DATABASEPAGINATION || '10')) : number[] => {
-
-        let limit = [1, 12];
-
-        if (start){
-
-            start = (start > 0) ? (start - 1) * step : 1;
-            limit = [start, step];
-        }
-
-        return limit;
-    }
 }
 
 export default mysqld;

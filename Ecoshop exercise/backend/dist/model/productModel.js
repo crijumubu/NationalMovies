@@ -15,6 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongo_1 = __importDefault(require("../database/mongo/mongo"));
 class productModel {
     constructor() {
+        this.getTotalPages = (fn) => __awaiter(this, void 0, void 0, function* () {
+            this.mongo.connect();
+            const total = yield this.mongo.model.count({});
+            fn(Math.ceil(total / 12));
+        });
         this.getProducts = (page, fn) => __awaiter(this, void 0, void 0, function* () {
             let initItem = (page - 1) * this.itemsPerPage;
             this.mongo.connect();
@@ -32,11 +37,21 @@ class productModel {
             ]);
             fn(limits);
         });
+        this.getTotalProductsByName = (name, fn) => __awaiter(this, void 0, void 0, function* () {
+            this.mongo.connect();
+            const total = yield this.mongo.model.count({ $text: { $search: name } });
+            fn(Math.ceil(total / 12));
+        });
         this.getProductsByName = (name, page, fn) => __awaiter(this, void 0, void 0, function* () {
             let initItem = (page - 1) * this.itemsPerPage;
             this.mongo.connect();
             const products = yield this.mongo.model.find({ $text: { $search: name } }).skip(initItem).limit(this.itemsPerPage);
             fn(products);
+        });
+        this.getTotalProductsByPrice = (low, upper, fn) => __awaiter(this, void 0, void 0, function* () {
+            this.mongo.connect();
+            const total = yield this.mongo.model.count({ 'price': { $gte: low, $lte: upper } });
+            fn(Math.ceil(total / 12));
         });
         this.getProductsByPrice = (low, upper, page, fn) => __awaiter(this, void 0, void 0, function* () {
             let initItem = (page - 1) * this.itemsPerPage;

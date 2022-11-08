@@ -26,14 +26,6 @@ class mysqld {
         this.statement = (statement, data) => {
             return mysql_1.default.format(statement, data);
         };
-        this.limit = (start, step = parseInt(process.env.DATABASEPAGINATION || '10')) => {
-            let limit = [1, 12];
-            if (start) {
-                start = (start > 0) ? (start - 1) * step : 1;
-                limit = [start, step];
-            }
-            return limit;
-        };
         this.pool = mysql_1.default.createPool({
             connectionLimit: parseInt(process.env.MYSQLCONNECTIONLIMIT || '10'),
             database: process.env.MYSQLNAME,

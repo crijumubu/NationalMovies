@@ -10,6 +10,15 @@ class productController{
         this.model = new productModel();
     }
 
+    public getTotalProducts = (req: Request, res: Response) => {
+
+        this.model.getTotalPages((row: JSON) => {
+
+            res.json(row);
+        });
+
+    }
+
     public getProducts = (req: Request, res: Response) => {
         
         const {page} = req.params;
@@ -21,7 +30,7 @@ class productController{
                 res.json(row);
             }else {
 
-                return res.status(404).json({ error: false, message: 'There are no products for that page!' });
+                return res.status(404).json({ error: false, message: 'No hay productos para esta página!' });
             }
         });
     }
@@ -35,8 +44,18 @@ class productController{
                 res.json(row);
             }else {
 
-                return res.status(404).json({ error: false, message: 'There are no products in database!' });
+                return res.status(404).json({ error: false, message: 'No hay productos en la base de datos!' });
             }
+        });
+    }
+
+    public getTotalProductsByName = (req: Request, res: Response) => {
+
+        const {name} = req.params;
+
+        this.model.getTotalProductsByName(name, (row: JSON) => {
+
+            res.json(row);
         });
     }
 
@@ -51,8 +70,18 @@ class productController{
                 res.json(row);
             } else{
 
-                return res.status(404).json({ error: false, message: 'There are no products that match with your search in that page!' });
+                return res.status(404).json({ error: false, message: 'No hay productos que coincidan con su búsqueda en esta página!' });
             }
+        });
+    }
+
+    public getTotalProductsByPrice = (req: Request, res: Response) => {
+
+        const {low, upper} = req.params;
+
+        this.model.getTotalProductsByPrice(parseInt(low), parseInt(upper), (row: JSON) => {
+
+            res.json(row);
         });
     }
 
@@ -67,7 +96,7 @@ class productController{
                 res.json(row);
             } else{
 
-                return res.status(404).json({ error: false, message: 'Products not found in that price range in that page' });
+                return res.status(404).json({ error: false, message: 'No se encuentraron productos en ese rango de precios en esta página!' });
             }
         });
     }
@@ -83,7 +112,7 @@ class productController{
                 res.json(row);
             } else{
 
-                return res.status(404).json({ error: false, message: 'Product not found by id!' });
+                return res.status(404).json({ error: false, message: 'No hubo coincidencias de productos con ese id!' });
             }
         });
     }
@@ -99,7 +128,7 @@ class productController{
                 res.download(row);
             } else{
 
-                return res.status(404).json({ error: false, message: 'Product not found by id!' });
+                return res.status(404).json({ error: false, message: 'No hubo coincidencias de productos con ese id!' });
             }
         });
     }

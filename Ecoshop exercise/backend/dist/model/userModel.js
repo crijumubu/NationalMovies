@@ -61,10 +61,13 @@ class userModel {
                 if (rows[0].Count == 0) {
                     const encryptPassword = yield this.encryptPassword(password);
                     statement = this.mysqld.statement(`
-                INSERT INTO USERS (USER_NAME, USER_LASTNAME, USER_EMAIL, USER_PASSWORD)
-                VALUES (?, ?, ?, ?);`, [name, lastname, email, encryptPassword]);
+                INSERT INTO USERS (USER_NAME, USER_LASTNAME, USER_EMAIL, USER_PASSWORD) VALUES (?, ?, ?, ?);`, [name, lastname, email, encryptPassword]);
                     this.mysqld.pool.query(statement, (error) => {
-                        fn(error, 1);
+                        statement = this.mysqld.statement(`
+                    INSERT INTO SHOPPING_CART (SUBTOTAL, TOTAL, USERS_ID_USER) SELECT 0, 0, ID_USER FROM USERS WHERE USER_EMAIL = ?;`, [email]);
+                        this.mysqld.pool.query(statement, (error) => {
+                            fn(error, 1);
+                        });
                     });
                 }
                 else {
@@ -72,7 +75,9 @@ class userModel {
                 }
             }));
         };
-        this.getFavorites = (email, fn) => {
+        this.getFavorites = (page, email, fn) => {
+            let initItem = (page - 1) * parseInt(process.env.DATABASEPAGINATION || '12');
+            let finalItem = (initItem + 12);
             this.mysqld.connection();
             let statement = this.mysqld.statement(`
         SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`, [email]);
@@ -80,7 +85,7 @@ class userModel {
                 if (rows.length == 1) {
                     const id_user = rows[0].Id;
                     statement = this.mysqld.statement(`
-                SELECT PRODUCT_ID_PRODUCT AS Id_product FROM FAVORITES WHERE USER_ID_USER = ?;`, [id_user]);
+                SELECT PRODUCT_ID_PRODUCT AS Id_product FROM FAVORITES WHERE USER_ID_USER = ? LIMIT ${initItem}, ${finalItem};`, [id_user]);
                     this.mysqld.pool.query(statement, (error, rows) => {
                         if (rows.length > 0) {
                             fn(error, 1, rows);
@@ -107,7 +112,7 @@ class userModel {
                     this.mysqld.pool.query(statement, (error, rows) => {
                         if (rows[0].Count == 0) {
                             statement = this.mysqld.statement(`
-                        INSERT  INTO FAVORITES VALUES (?, ?);`, [id_user, id_product]);
+                        INSERT INTO FAVORITES (USER_ID_USER, PRODUCT_ID_PRODUCT) VALUES (?, ?);`, [id_user, id_product]);
                             this.mysqld.pool.query(statement, (error) => {
                                 fn(error, 1);
                             });
@@ -148,6 +153,37 @@ class userModel {
                     fn(error, -1);
                 }
             });
+        };
+        this.addToCart = (email, id_product, fn) => {
+            this.mysqld.connection();
+            let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`, [email]);
+            this.mysqld.pool.query(statement, (error, rows) => {
+                if (rows.length == 1) {
+                    const id_user = rows[0].Id;
+                    statement = this.mysqld.statement(`
+                SELECT ID_CART AS Id FROM SHOPPING_CART WHERE USERS_ID_USER = ?;`, [id_user]);
+                    this.mysqld.pool.query(statement, (error, row) => {
+                        console.log(id_user);
+                        if (row.length == 1) {
+                            const id_cart = row[0].Id;
+                            statement = this.mysqld.statement(`
+                        INSERT INTO SHOPPING_CART_has_PRODUCTS (SHOPPING_CART_ID_CART, PRODUCTS_ID_PRODUCT) VALUES (?, ?);`, [id_cart, id_product]);
+                            this.mysqld.pool.query(statement, (error) => {
+                                fn(error, 1);
+                            });
+                        }
+                        else {
+                            fn(error, -1);
+                        }
+                    });
+                }
+                else {
+                    fn(error, -1);
+                }
+            });
+        };
+        this.removeToCart = () => {
         };
         this.mysqld = new mysql_1.default();
     }

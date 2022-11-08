@@ -11,7 +11,7 @@ class userModel{
     }
 
     public getUser = (id: string, fn: Function) => {
-
+        
         this.mysqld.connection();
 
         const statement = this.mysqld.statement(`
@@ -82,13 +82,19 @@ class userModel{
                 const encryptPassword = await this.encryptPassword(password);
 
                 statement = this.mysqld.statement(`
-                INSERT INTO USERS (USER_NAME, USER_LASTNAME, USER_EMAIL, USER_PASSWORD)
-                VALUES (?, ?, ?, ?);`,
+                INSERT INTO USERS (USER_NAME, USER_LASTNAME, USER_EMAIL, USER_PASSWORD) VALUES (?, ?, ?, ?);`,
                 [name, lastname, email, encryptPassword]);
         
-                this.mysqld.pool.query(statement, (error: any) => {
-        
-                    fn(error, 1);
+                this.mysqld.pool.query(statement, (error) => {
+                    
+                    statement = this.mysqld.statement(`
+                    INSERT INTO SHOPPING_CART (SUBTOTAL, TOTAL, USERS_ID_USER) SELECT 0, 0, ID_USER FROM USERS WHERE USER_EMAIL = ?;`,
+                    [email]);
+
+                    this.mysqld.pool.query(statement, (error: any) => {
+
+                        fn(error, 1);
+                    });
                 });
             }else{
 
@@ -97,7 +103,10 @@ class userModel{
         });
     }
 
-    public getFavorites = (email: string, fn: Function) => {
+    public getFavorites = (page: number, email: string, fn: Function) => {
+
+        let initItem = (page - 1) * parseInt(process.env.DATABASEPAGINATION || '12');
+        let finalItem = (initItem + 12);
 
         this.mysqld.connection();
 
@@ -112,7 +121,7 @@ class userModel{
                 const id_user = rows[0].Id;
 
                 statement = this.mysqld.statement(`
-                SELECT PRODUCT_ID_PRODUCT AS Id_product FROM FAVORITES WHERE USER_ID_USER = ?;`,
+                SELECT PRODUCT_ID_PRODUCT AS Id_product FROM FAVORITES WHERE USER_ID_USER = ? LIMIT ${initItem}, ${finalItem};`,
                 [id_user]);
 
                 this.mysqld.pool.query(statement, (error: any, rows: any) => {
@@ -155,7 +164,7 @@ class userModel{
                     if (rows[0].Count == 0){
 
                         statement = this.mysqld.statement(`
-                        INSERT  INTO FAVORITES VALUES (?, ?);`,
+                        INSERT INTO FAVORITES (USER_ID_USER, PRODUCT_ID_PRODUCT) VALUES (?, ?);`,
                         [id_user, id_product]);
         
                         this.mysqld.pool.query(statement, (error: any) => {
@@ -215,6 +224,60 @@ class userModel{
                 fn(error, -1);
             }
         });
+    }
+
+    public addToCart = (email: string, id_product: number, fn: Function) => {
+
+        this.mysqld.connection();
+
+        let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`,
+        [email]);
+
+        this.mysqld.pool.query(statement, (error: any, rows: any) => {
+
+            if (rows.length == 1){
+
+                const id_user = rows[0].Id;
+
+                statement = this.mysqld.statement(`
+                SELECT ID_CART AS Id FROM SHOPPING_CART WHERE USERS_ID_USER = ?;`,
+                [id_user]);
+        
+                this.mysqld.pool.query(statement, (error: any, row: any) => {
+
+                    console.log(id_user);
+
+                    if (row.length == 1){
+
+                        const id_cart = row[0].Id;
+
+                        statement = this.mysqld.statement(`
+                        INSERT INTO SHOPPING_CART_has_PRODUCTS (SHOPPING_CART_ID_CART, PRODUCTS_ID_PRODUCT) VALUES (?, ?);`,
+                        [id_cart, id_product]);
+
+                        this.mysqld.pool.query(statement, (error: any) => {
+
+                            fn(error, 1);
+                        });
+
+                    }else{
+
+                        fn(error, -1);
+                    }
+                });
+            }else{
+
+                fn(error, -1);
+            }
+        }); 
+
+    }
+
+    public removeToCart = () => {
+
+
+
     }
 }
 
