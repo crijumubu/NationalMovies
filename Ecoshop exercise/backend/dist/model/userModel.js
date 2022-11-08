@@ -75,6 +75,23 @@ class userModel {
                 }
             }));
         };
+        this.getTotalFavorites = (email, fn) => {
+            let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`, [email]);
+            this.mysqld.pool.query(statement, (error, rows) => {
+                if (rows.length == 1) {
+                    const id_user = rows[0].Id;
+                    statement = this.mysqld.statement(`
+                SELECT COUNT(USER_ID_USER) AS Total FROM FAVORITES WHERE USER_ID_USER = ?;`, [id_user]);
+                    this.mysqld.pool.query(statement, (error, rows) => {
+                        fn(error, 1, Math.ceil(rows[0].Total / 12));
+                    });
+                }
+                else {
+                    fn(error, -1);
+                }
+            });
+        };
         this.getFavorites = (page, email, fn) => {
             let initItem = (page - 1) * parseInt(process.env.DATABASEPAGINATION || '12');
             let finalItem = (initItem + 12);

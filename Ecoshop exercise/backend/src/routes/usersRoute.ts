@@ -16,6 +16,7 @@ class usersRoute{
     public config(){
         
         this.router.get('/:id', this.controller.getUser);
+        this.router.get('/favorites2/:email/pages', this.controller.getTotalFavorites);
         this.router.get('/favorites/:email/:page', this.controller.getFavorites);
         this.router.post('/login', this.controller.signIn);
         this.router.post('/register', this.controller.signUp);

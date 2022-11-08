@@ -103,6 +103,33 @@ class userModel{
         });
     }
 
+    public getTotalFavorites = (email: string, fn: Function) => {
+        
+        let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`,
+        [email]);
+
+        this.mysqld.pool.query(statement, (error: any, rows: any) => {
+
+            if (rows.length == 1){
+
+                const id_user = rows[0].Id;
+
+                statement = this.mysqld.statement(`
+                SELECT COUNT(USER_ID_USER) AS Total FROM FAVORITES WHERE USER_ID_USER = ?;`,
+                [id_user]);
+
+                this.mysqld.pool.query(statement, (error: any, rows: any) => {
+
+                    fn(error, 1, Math.ceil(rows[0].Total / 12));
+                });
+            }else{
+
+                fn(error, -1);
+            }
+        });
+    }
+
     public getFavorites = (page: number, email: string, fn: Function) => {
 
         let initItem = (page - 1) * parseInt(process.env.DATABASEPAGINATION || '12');

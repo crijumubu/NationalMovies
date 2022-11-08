@@ -61,6 +61,20 @@ class userController {
                 }
             });
         };
+        this.getTotalFavorites = (req, res) => {
+            const { email } = req.params;
+            this.usermodel.getTotalFavorites(email, (error, status, rows) => {
+                if (error) {
+                    return res.json({ error: true, message: 'Upss, algo ha salido mal!' });
+                }
+                if (status == 1) {
+                    return res.json(rows);
+                }
+                else {
+                    return res.status(404).json({ error: false, message: 'Upss, algo ha salido mal. No existe un usuario con ese correo!' });
+                }
+            });
+        };
         this.getFavorites = (req, res) => {
             const { page, email } = req.params;
             this.usermodel.getFavorites(parseInt(page), email, (error, status, rows) => __awaiter(this, void 0, void 0, function* () {
