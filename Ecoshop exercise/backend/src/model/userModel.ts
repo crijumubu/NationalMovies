@@ -148,8 +148,8 @@ class userModel{
                 const id_user = rows[0].Id;
 
                 statement = this.mysqld.statement(`
-                SELECT PRODUCT_ID_PRODUCT AS Id_product FROM FAVORITES WHERE USER_ID_USER = ? LIMIT ${initItem}, ${finalItem};`,
-                [id_user]);
+                SELECT PRODUCT_ID_PRODUCT AS Id_product FROM FAVORITES WHERE USER_ID_USER = ? LIMIT ?, ?;`,
+                [id_user, initItem, finalItem]);
 
                 this.mysqld.pool.query(statement, (error: any, rows: any) => {
 
@@ -253,7 +253,7 @@ class userModel{
         });
     }
 
-    public addToCart = (email: string, id_product: number, fn: Function) => {
+    public getShoppingCart = (email: string, fn: Function) => {
 
         this.mysqld.connection();
 
@@ -261,36 +261,31 @@ class userModel{
         SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`,
         [email]);
 
-        this.mysqld.pool.query(statement, (error: any, rows: any) => {
+        this.mysqld.pool.query(statement, (error: any, row: any) => {
 
-            if (rows.length == 1){
+            if (row.length == 1){
 
-                const id_user = rows[0].Id;
+                const id_user = row[0].Id;
 
                 statement = this.mysqld.statement(`
-                SELECT ID_CART AS Id FROM SHOPPING_CART WHERE USERS_ID_USER = ?;`,
+                SELECT PRODUCTS_ID_PRODUCT AS Id_product, UNITS_PRODUCTS_CART AS Units FROM SHOPPING_CART_has_PRODUCTS WHERE SHOPPING_CART_ID_CART = ?;`,
                 [id_user]);
-        
-                this.mysqld.pool.query(statement, (error: any, row: any) => {
 
-                    console.log(id_user);
+                this.mysqld.pool.query(statement, (error: any, rows: any) => {
 
-                    if (row.length == 1){
-
-                        const id_cart = row[0].Id;
+                    if (rows.length > 0) {
 
                         statement = this.mysqld.statement(`
-                        INSERT INTO SHOPPING_CART_has_PRODUCTS (SHOPPING_CART_ID_CART, PRODUCTS_ID_PRODUCT) VALUES (?, ?);`,
-                        [id_cart, id_product]);
+                        SELECT SUBTOTAL, TOTAL FROM SHOPPING_CART WHERE USERS_ID_USER = ?;`,
+                        id_user);
 
-                        this.mysqld.pool.query(statement, (error: any) => {
+                        this.mysqld.pool.query(statement, (error: any, totalRow: any) => {
 
-                            fn(error, 1);
+                            fn(error, 1, rows, totalRow);
                         });
-
                     }else{
 
-                        fn(error, -1);
+                        fn(error, 0);
                     }
                 });
             }else{
@@ -298,7 +293,48 @@ class userModel{
                 fn(error, -1);
             }
         }); 
+    }
 
+    public updateCartPrice = (id_user: string, price: string) => {
+
+        this.mysqld.connection();
+
+        let statement = this.mysqld.statement(`
+        UPDATE SHOPPING_CART SET SUBTOTAL = SUBTOTAL + ?, TOTAL = SUBTOTAL * 1.19 WHERE ID_CART = ?;`,
+        [price, id_user]);
+
+        this.mysqld.pool.query(statement);
+    }
+
+    public addToCart = (email: string, id_product: number, productPrice: string, fn: Function) => {
+
+        this.mysqld.connection();
+
+        let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`,
+        [email]);
+
+        this.mysqld.pool.query(statement, (error: any, row: any) => {
+
+            if (row.length == 1){
+
+                const id_user = row[0].Id;
+
+                statement = this.mysqld.statement(`
+                INSERT INTO SHOPPING_CART_has_PRODUCTS (SHOPPING_CART_ID_CART, PRODUCTS_ID_PRODUCT, UNITS_PRODUCTS_CART) VALUES (?, ?, 1);`,
+                [id_user, id_product]);
+
+                this.mysqld.pool.query(statement, (error: any) => {
+
+                    this.updateCartPrice(id_user, productPrice);
+
+                    fn(error, 1);
+                });
+            }else{
+
+                fn(error, -1);
+            }
+        }); 
     }
 
     public removeToCart = () => {

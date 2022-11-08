@@ -56,7 +56,7 @@ class productModel {
         this.getProductsByPrice = (low, upper, page, fn) => __awaiter(this, void 0, void 0, function* () {
             let initItem = (page - 1) * this.itemsPerPage;
             this.mongo.connect();
-            const products = yield this.mongo.model.find({ 'price': { $gte: low, $lte: upper } }).skip(initItem).limit(this.itemsPerPage);
+            const products = yield this.mongo.model.find({ 'price': { $gte: low, $lte: upper } }).sort({ 'price': 1 }).skip(initItem).limit(this.itemsPerPage);
             fn(products);
         });
         this.getProductById = (id, fn) => __awaiter(this, void 0, void 0, function* () {
@@ -72,6 +72,11 @@ class productModel {
                 imagePath = `./src/resources/${id}.jpg`;
             }
             fn(imagePath);
+        });
+        this.GetProductPrice = (id) => __awaiter(this, void 0, void 0, function* () {
+            this.mongo.connect();
+            const product = yield this.mongo.model.findOne({ 'id': id });
+            return product.price;
         });
         this.mongo = new mongo_1.default();
         this.itemsPerPage = parseInt(process.env.DATABASEPAGINATION || '12');

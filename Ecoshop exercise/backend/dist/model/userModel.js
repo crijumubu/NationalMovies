@@ -102,7 +102,7 @@ class userModel {
                 if (rows.length == 1) {
                     const id_user = rows[0].Id;
                     statement = this.mysqld.statement(`
-                SELECT PRODUCT_ID_PRODUCT AS Id_product FROM FAVORITES WHERE USER_ID_USER = ? LIMIT ${initItem}, ${finalItem};`, [id_user]);
+                SELECT PRODUCT_ID_PRODUCT AS Id_product FROM FAVORITES WHERE USER_ID_USER = ? LIMIT ?, ?;`, [id_user, initItem, finalItem]);
                     this.mysqld.pool.query(statement, (error, rows) => {
                         if (rows.length > 0) {
                             fn(error, 1, rows);
@@ -171,28 +171,51 @@ class userModel {
                 }
             });
         };
-        this.addToCart = (email, id_product, fn) => {
+        this.getShoppingCart = (email, fn) => {
             this.mysqld.connection();
             let statement = this.mysqld.statement(`
         SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`, [email]);
-            this.mysqld.pool.query(statement, (error, rows) => {
-                if (rows.length == 1) {
-                    const id_user = rows[0].Id;
+            this.mysqld.pool.query(statement, (error, row) => {
+                if (row.length == 1) {
+                    const id_user = row[0].Id;
                     statement = this.mysqld.statement(`
-                SELECT ID_CART AS Id FROM SHOPPING_CART WHERE USERS_ID_USER = ?;`, [id_user]);
-                    this.mysqld.pool.query(statement, (error, row) => {
-                        console.log(id_user);
-                        if (row.length == 1) {
-                            const id_cart = row[0].Id;
+                SELECT PRODUCTS_ID_PRODUCT AS Id_product, UNITS_PRODUCTS_CART AS Units FROM SHOPPING_CART_has_PRODUCTS WHERE SHOPPING_CART_ID_CART = ?;`, [id_user]);
+                    this.mysqld.pool.query(statement, (error, rows) => {
+                        if (rows.length > 0) {
                             statement = this.mysqld.statement(`
-                        INSERT INTO SHOPPING_CART_has_PRODUCTS (SHOPPING_CART_ID_CART, PRODUCTS_ID_PRODUCT) VALUES (?, ?);`, [id_cart, id_product]);
-                            this.mysqld.pool.query(statement, (error) => {
-                                fn(error, 1);
+                        SELECT SUBTOTAL, TOTAL FROM SHOPPING_CART WHERE USERS_ID_USER = ?;`, id_user);
+                            this.mysqld.pool.query(statement, (error, totalRow) => {
+                                fn(error, 1, rows, totalRow);
                             });
                         }
                         else {
-                            fn(error, -1);
+                            fn(error, 0);
                         }
+                    });
+                }
+                else {
+                    fn(error, -1);
+                }
+            });
+        };
+        this.updateCartPrice = (id_user, price) => {
+            this.mysqld.connection();
+            let statement = this.mysqld.statement(`
+        UPDATE SHOPPING_CART SET SUBTOTAL = SUBTOTAL + ?, TOTAL = SUBTOTAL * 1.19 WHERE ID_CART = ?;`, [price, id_user]);
+            this.mysqld.pool.query(statement);
+        };
+        this.addToCart = (email, id_product, productPrice, fn) => {
+            this.mysqld.connection();
+            let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`, [email]);
+            this.mysqld.pool.query(statement, (error, row) => {
+                if (row.length == 1) {
+                    const id_user = row[0].Id;
+                    statement = this.mysqld.statement(`
+                INSERT INTO SHOPPING_CART_has_PRODUCTS (SHOPPING_CART_ID_CART, PRODUCTS_ID_PRODUCT, UNITS_PRODUCTS_CART) VALUES (?, ?, 1);`, [id_user, id_product]);
+                    this.mysqld.pool.query(statement, (error) => {
+                        this.updateCartPrice(id_user, productPrice);
+                        fn(error, 1);
                     });
                 }
                 else {

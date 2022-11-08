@@ -92,7 +92,7 @@ class userController {
                     return res.json(favoritesJson);
                 }
                 else if (status == 0) {
-                    return res.json({ error: false, message: 'Todavía no hay productos favoritos!' });
+                    return res.json({ error: false, message: 'No se encontraron favoritos en esta página!' });
                 }
                 else {
                     return res.status(404).json({ error: false, message: 'Upss, algo ha salido mal. No existe un usuario con ese correo!' });
@@ -133,11 +133,39 @@ class userController {
                 }
             });
         };
-        this.addToCart = (req, res) => {
-            const { email, id_product } = req.body;
-            this.usermodel.addToCart(email, id_product, (error, status) => {
+        this.getShoppingCart = (req, res) => {
+            const { email } = req.params;
+            this.usermodel.getShoppingCart(email, (error, status, rows, totalRow) => __awaiter(this, void 0, void 0, function* () {
                 if (error) {
-                    return res.json({ error: true, message: 'Upss, algo ha salido mal. El producto puede que no exista!' });
+                    return res.json({ error: true, message: 'Upss, algo ha salido mal!' });
+                }
+                if (status == 1) {
+                    let favoritesJson = [];
+                    for (let i = 0; i < rows.length; i++) {
+                        let id = rows[i].Id_product;
+                        let units = rows[i].Units;
+                        yield this.productmodel.getProductById(id, (row) => {
+                            row['units'] = units;
+                            favoritesJson.push([row, { "units": units }]);
+                        });
+                    }
+                    favoritesJson.push([{ 'subtotal': totalRow[0].SUBTOTAL, 'total': totalRow[0].TOTAL }]);
+                    return res.json(favoritesJson);
+                }
+                if (status == 0) {
+                    return res.json({ error: false, message: 'No se encontraron productos en el carrito!' });
+                }
+                else {
+                    return res.status(404).json({ error: false, message: 'Upss, algo ha salido mal. No hay usuarios o carritos de compras asociados con ese correo electrónico!' });
+                }
+            }));
+        };
+        this.addToCart = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { email, id_product } = req.body;
+            const productPrice = yield this.productmodel.GetProductPrice(id_product);
+            this.usermodel.addToCart(email, id_product, productPrice, (error, status) => {
+                if (error) {
+                    return res.json({ error: true, message: 'Upss, algo ha salido mal. El producto puede que ya se encuentre agregado al carrito o que no exista!' });
                 }
                 if (status == 1) {
                     return res.json({ error: false, message: 'El producto fue agregado correctamente al carrito de compras!' });
@@ -146,7 +174,7 @@ class userController {
                     return res.status(404).json({ error: false, message: 'Upss, algo ha salido mal. No hay usuarios o carritos de compras asociados con ese correo electrónico!' });
                 }
             });
-        };
+        });
         this.removeToCart = (req, res) => {
         };
         this.usermodel = new userModel_1.default();

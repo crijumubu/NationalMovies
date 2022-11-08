@@ -17,7 +17,6 @@ class productModel{
 
         const total = await this.mongo.model.count({});
         fn(Math.ceil(total / 12));
-
     }
 
     public getProducts = async (page: number, fn: Function) => {
@@ -77,7 +76,7 @@ class productModel{
 
         this.mongo.connect();
 
-        const products = await this.mongo.model.find({'price' : {$gte : low, $lte : upper}}).skip( initItem ).limit( this.itemsPerPage );
+        const products = await this.mongo.model.find({'price' : {$gte : low, $lte : upper}}).sort({'price' : 1}).skip( initItem ).limit( this.itemsPerPage );
         fn(products);
     }
 
@@ -102,6 +101,14 @@ class productModel{
         }
 
         fn(imagePath);
+    }
+
+    public GetProductPrice = async(id: number) => {
+
+        this.mongo.connect();
+
+        const product = await this.mongo.model.findOne({'id': id});
+        return product.price;
     }
 }
 

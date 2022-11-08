@@ -129,7 +129,7 @@ class userController{
             }
             else if (status == 0) {
 
-                return res.json({ error: false, message: 'Todavía no hay productos favoritos!' });
+                return res.json({ error: false, message: 'No se encontraron favoritos en esta página!' });
             }
             else {
 
@@ -188,15 +188,62 @@ class userController{
         });
     }
 
-    public addToCart = (req: Request, res: Response) => {
+    public getShoppingCart = (req: Request, res: Response) => {
 
-        const { email, id_product } = req.body;
+        const { email } = req.params;
 
-        this.usermodel.addToCart(email, id_product, (error: any, status: number) => {
+        this.usermodel.getShoppingCart(email, async (error: any, status: number, rows: any, totalRow: any) => {
 
             if (error) {
 
-                return res.json({ error: true, message: 'Upss, algo ha salido mal. El producto puede que no exista!' });
+                return res.json({ error: true, message: 'Upss, algo ha salido mal!' });
+            }       
+            if (status == 1){
+
+                let favoritesJson: any[] = []
+
+                for (let i=0; i<rows.length; i++){
+
+                    let id = rows[i].Id_product;
+                    let units = rows[i].Units;
+
+                    await this.productmodel.getProductById(id, (row: any) => {
+
+                        row['units'] = units;
+
+                        favoritesJson.push([row, {"units": units}]);
+
+                    });
+                }
+
+                favoritesJson.push([{'subtotal': totalRow[0].SUBTOTAL, 'total': totalRow[0].TOTAL}])
+
+                return res.json(favoritesJson);
+            }
+            if (status == 0){
+                
+                return res.json({error: false, message: 'No se encontraron productos en el carrito!'})
+                
+            }
+            else {
+
+                return res.status(404).json({ error: false, message: 'Upss, algo ha salido mal. No hay usuarios o carritos de compras asociados con ese correo electrónico!' });
+            }
+        });
+
+    }
+
+    public addToCart = async (req: Request, res: Response) => {
+
+        const { email, id_product } = req.body;
+
+        const productPrice = await this.productmodel.GetProductPrice(id_product);
+
+        this.usermodel.addToCart(email, id_product, productPrice, (error: any, status: number) => {
+
+            if (error) {
+
+                return res.json({ error: true, message: 'Upss, algo ha salido mal. El producto puede que ya se encuentre agregado al carrito o que no exista!' });
             }       
             if (status == 1){
 
