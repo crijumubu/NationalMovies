@@ -326,7 +326,10 @@ class userModel{
 
                 this.mysqld.pool.query(statement, (error: any) => {
 
-                    this.updateCartPrice(id_user, productPrice);
+                    if (!error) {             
+
+                        this.updateCartPrice(id_user, productPrice);
+                    }
 
                     fn(error, 1);
                 });
@@ -337,10 +340,49 @@ class userModel{
         }); 
     }
 
-    public removeToCart = () => {
+    public removeToCart = (email: string, id_product: number, productPrice: string, fn: Function) => {
 
+        this.mysqld.connection();
 
+        let statement = this.mysqld.statement(`
+        SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`,
+        [email]);
 
+        this.mysqld.pool.query(statement, (error: any, row: any) => {
+
+            if (row.length == 1){
+
+                const id_user = row[0].Id;
+
+                statement = this.mysqld.statement(`
+                SELECT COUNT(PRODUCTS_ID_PRODUCT) AS CNT FROM SHOPPING_CART_has_PRODUCTS WHERE SHOPPING_CART_ID_CART = ? AND PRODUCTS_ID_PRODUCT = ?;`,
+                [id_user, id_product]);
+
+                this.mysqld.pool.query(statement, (error: any, rows: any) => {
+
+                    if (rows[0].CNT == '1'){
+
+                        statement = this.mysqld.statement(`
+                        DELETE FROM SHOPPING_CART_has_PRODUCTS WHERE SHOPPING_CART_ID_CART = ? AND PRODUCTS_ID_PRODUCT = ?;`,
+                        [id_user, id_product]);
+        
+                        this.mysqld.pool.query(statement, (error: any) => {
+        
+                            this.updateCartPrice(id_user, productPrice);
+        
+                            fn(error, 1);
+                        });
+                    }else{
+                        
+                        fn(error, 0);
+
+                    }
+                });
+            }else{
+
+                fn(error, -1);
+            }
+        }); 
     }
 }
 

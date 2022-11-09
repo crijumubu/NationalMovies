@@ -243,7 +243,7 @@ class userController{
 
             if (error) {
 
-                return res.json({ error: true, message: 'Upss, algo ha salido mal. El producto puede que ya se encuentre agregado al carrito o que no exista!' });
+                return res.json({ error: true, message: 'Upss, algo ha salido mal. El producto puede que ya se encuentre agregado al carrito!' });
             }       
             if (status == 1){
 
@@ -254,12 +254,34 @@ class userController{
                 return res.status(404).json({ error: false, message: 'Upss, algo ha salido mal. No hay usuarios o carritos de compras asociados con ese correo electrónico!' });
             }
         });
-
     }
 
-    public removeToCart = (req: Request, res: Response) => {
+    public removeToCart = async (req: Request, res: Response) => {
 
+        const { email, id_product } = req.body;
 
+        const productPrice = await this.productmodel.GetProductPrice(id_product);
+
+        this.usermodel.removeToCart(email, id_product, "-" + productPrice, (error: any, status: number) => {
+
+            if (error) {
+
+                return res.json({ error: true, message: 'Upss, algo ha salido mal!' });
+            }       
+            if (status == 1){
+
+                return res.json({ error: false, message: 'El producto fue removido correctamente del carrito de compras!' });
+            }
+            else if (status == 0){
+
+                return res.json({ error: false, message: 'El producto que está intentando eliminar no se encuentra en el carrito de compras!' });
+
+            }
+            else {
+
+                return res.status(404).json({ error: false, message: 'Upss, algo ha salido mal. No hay usuarios o carritos de compras asociados con ese correo electrónico!' });
+            }
+        });
 
     }
 }
