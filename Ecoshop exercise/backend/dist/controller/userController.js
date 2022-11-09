@@ -161,9 +161,9 @@ class userController {
             }));
         };
         this.addToCart = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { email, id_product } = req.body;
+            const { email, id_product, units } = req.body;
             const productPrice = yield this.productmodel.GetProductPrice(id_product);
-            this.usermodel.addToCart(email, id_product, productPrice, (error, status) => {
+            this.usermodel.addToCart(email, id_product, productPrice, units, (error, status) => {
                 if (error) {
                     return res.json({ error: true, message: 'Upss, algo ha salido mal. El producto puede que ya se encuentre agregado al carrito!' });
                 }
@@ -176,9 +176,9 @@ class userController {
             });
         });
         this.removeToCart = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { email, id_product } = req.body;
+            const { email, id_product, units } = req.body;
             const productPrice = yield this.productmodel.GetProductPrice(id_product);
-            this.usermodel.removeToCart(email, id_product, "-" + productPrice, (error, status) => {
+            this.usermodel.removeToCart(email, id_product, productPrice, units, (error, status) => {
                 if (error) {
                     return res.json({ error: true, message: 'Upss, algo ha salido mal!' });
                 }
@@ -186,7 +186,7 @@ class userController {
                     return res.json({ error: false, message: 'El producto fue removido correctamente del carrito de compras!' });
                 }
                 else if (status == 0) {
-                    return res.json({ error: false, message: 'El producto que está intentando eliminar no se encuentra en el carrito de compras!' });
+                    return res.json({ error: false, message: 'Estás intentado eliminar una mayor cantidad de productos a la que se encuentran en el carrito!' });
                 }
                 else {
                     return res.status(404).json({ error: false, message: 'Upss, algo ha salido mal. No hay usuarios o carritos de compras asociados con ese correo electrónico!' });

@@ -202,9 +202,11 @@ class userModel {
             this.mysqld.connection();
             let statement = this.mysqld.statement(`
         UPDATE SHOPPING_CART SET SUBTOTAL = SUBTOTAL + ?, TOTAL = SUBTOTAL * 1.19 WHERE ID_CART = ?;`, [price, id_user]);
-            this.mysqld.pool.query(statement);
+            this.mysqld.pool.query(statement, (error) => {
+                console.log(error);
+            });
         };
-        this.addToCart = (email, id_product, productPrice, fn) => {
+        this.addToCart = (email, id_product, productPrice, units, fn) => {
             this.mysqld.connection();
             let statement = this.mysqld.statement(`
         SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`, [email]);
@@ -212,12 +214,36 @@ class userModel {
                 if (row.length == 1) {
                     const id_user = row[0].Id;
                     statement = this.mysqld.statement(`
-                INSERT INTO SHOPPING_CART_has_PRODUCTS (SHOPPING_CART_ID_CART, PRODUCTS_ID_PRODUCT, UNITS_PRODUCTS_CART) VALUES (?, ?, 1);`, [id_user, id_product]);
-                    this.mysqld.pool.query(statement, (error) => {
-                        if (!error) {
-                            this.updateCartPrice(id_user, productPrice);
+                SELECT UNITS_PRODUCTS_CART AS 'CNT' FROM SHOPPING_CART_has_PRODUCTS WHERE SHOPPING_CART_ID_CART = ? AND PRODUCTS_ID_PRODUCT = ?;`, [id_user, id_product]);
+                    this.mysqld.pool.query(statement, (error, rows) => {
+                        let product_units = 0;
+                        if (rows[0] != undefined) {
+                            product_units = parseInt(rows[0].CNT);
                         }
-                        fn(error, 1);
+                        const price = (parseFloat(productPrice) * parseFloat(units)).toString();
+                        if (error) {
+                            fn(error, -1);
+                        }
+                        if (product_units == 0) {
+                            statement = this.mysqld.statement(`
+                        INSERT INTO SHOPPING_CART_has_PRODUCTS (SHOPPING_CART_ID_CART, PRODUCTS_ID_PRODUCT, UNITS_PRODUCTS_CART) VALUES (?, ?, ?);`, [id_user, id_product, units]);
+                            this.mysqld.pool.query(statement, (error) => {
+                                if (!error) {
+                                    this.updateCartPrice(id_user, price);
+                                }
+                                fn(error, 1);
+                            });
+                        }
+                        else if (product_units > 0) {
+                            statement = this.mysqld.statement(`
+                        UPDATE SHOPPING_CART_has_PRODUCTS SET UNITS_PRODUCTS_CART = UNITS_PRODUCTS_CART + ? WHERE SHOPPING_CART_ID_CART = ? AND PRODUCTS_ID_PRODUCT = ?;`, [units, id_user, id_product]);
+                            this.mysqld.pool.query(statement, (error) => {
+                                if (!error) {
+                                    this.updateCartPrice(id_user, price);
+                                }
+                                fn(error, 1);
+                            });
+                        }
                     });
                 }
                 else {
@@ -225,7 +251,7 @@ class userModel {
                 }
             });
         };
-        this.removeToCart = (email, id_product, productPrice, fn) => {
+        this.removeToCart = (email, id_product, productPrice, units, fn) => {
             this.mysqld.connection();
             let statement = this.mysqld.statement(`
         SELECT ID_USER AS Id FROM USERS WHERE USER_EMAIL = ?;`, [email]);
@@ -233,13 +259,27 @@ class userModel {
                 if (row.length == 1) {
                     const id_user = row[0].Id;
                     statement = this.mysqld.statement(`
-                SELECT COUNT(PRODUCTS_ID_PRODUCT) AS CNT FROM SHOPPING_CART_has_PRODUCTS WHERE SHOPPING_CART_ID_CART = ? AND PRODUCTS_ID_PRODUCT = ?;`, [id_user, id_product]);
+                SELECT UNITS_PRODUCTS_CART AS CNT FROM SHOPPING_CART_has_PRODUCTS WHERE SHOPPING_CART_ID_CART = ? AND PRODUCTS_ID_PRODUCT = ?;`, [id_user, id_product]);
                     this.mysqld.pool.query(statement, (error, rows) => {
-                        if (rows[0].CNT == '1') {
+                        const product_units = parseInt(rows[0].CNT);
+                        const delete_units = product_units - parseInt(units);
+                        const price = (parseFloat(productPrice) * parseFloat(units) * -1).toString();
+                        if (error) {
+                            fn(error, -1);
+                        }
+                        if (delete_units >= 1) {
+                            statement = this.mysqld.statement(`
+                        UPDATE SHOPPING_CART_has_PRODUCTS SET UNITS_PRODUCTS_CART = UNITS_PRODUCTS_CART - ? WHERE SHOPPING_CART_ID_CART = ? AND PRODUCTS_ID_PRODUCT = ?;`, [units, id_user, id_product]);
+                            this.mysqld.pool.query(statement, (error) => {
+                                this.updateCartPrice(id_user, price);
+                                fn(error, 1);
+                            });
+                        }
+                        else if (delete_units == 0) {
                             statement = this.mysqld.statement(`
                         DELETE FROM SHOPPING_CART_has_PRODUCTS WHERE SHOPPING_CART_ID_CART = ? AND PRODUCTS_ID_PRODUCT = ?;`, [id_user, id_product]);
                             this.mysqld.pool.query(statement, (error) => {
-                                this.updateCartPrice(id_user, productPrice);
+                                this.updateCartPrice(id_user, price);
                                 fn(error, 1);
                             });
                         }

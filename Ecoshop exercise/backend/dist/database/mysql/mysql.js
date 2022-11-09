@@ -27,7 +27,7 @@ class mysqld {
             return mysql_1.default.format(statement, data);
         };
         this.pool = mysql_1.default.createPool({
-            connectionLimit: parseInt(process.env.MYSQLCONNECTIONLIMIT || '10'),
+            connectionLimit: parseInt(process.env.MYSQLCONNECTIONLIMIT || '20'),
             database: process.env.MYSQLNAME,
             user: process.env.MYSQLUSER,
             host: process.env.MYSQL,

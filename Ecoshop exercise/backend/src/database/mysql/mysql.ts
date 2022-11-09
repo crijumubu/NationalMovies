@@ -8,7 +8,7 @@ class mysqld {
 
         this.pool = mysql.createPool({
 
-            connectionLimit: parseInt(process.env.MYSQLCONNECTIONLIMIT || '10'),
+            connectionLimit: parseInt(process.env.MYSQLCONNECTIONLIMIT || '20'),
             database: process.env.MYSQLNAME,
             user: process.env.MYSQLUSER,
             host: process.env.MYSQL,

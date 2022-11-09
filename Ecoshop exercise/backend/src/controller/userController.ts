@@ -235,11 +235,11 @@ class userController{
 
     public addToCart = async (req: Request, res: Response) => {
 
-        const { email, id_product } = req.body;
+        const { email, id_product, units } = req.body;
 
         const productPrice = await this.productmodel.GetProductPrice(id_product);
 
-        this.usermodel.addToCart(email, id_product, productPrice, (error: any, status: number) => {
+        this.usermodel.addToCart(email, id_product, productPrice, units, (error: any, status: number) => {
 
             if (error) {
 
@@ -258,11 +258,11 @@ class userController{
 
     public removeToCart = async (req: Request, res: Response) => {
 
-        const { email, id_product } = req.body;
+        const { email, id_product, units } = req.body;
 
         const productPrice = await this.productmodel.GetProductPrice(id_product);
 
-        this.usermodel.removeToCart(email, id_product, "-" + productPrice, (error: any, status: number) => {
+        this.usermodel.removeToCart(email, id_product, productPrice, units, (error: any, status: number) => {
 
             if (error) {
 
@@ -274,7 +274,7 @@ class userController{
             }
             else if (status == 0){
 
-                return res.json({ error: false, message: 'El producto que está intentando eliminar no se encuentra en el carrito de compras!' });
+                return res.json({ error: false, message: 'Estás intentado eliminar una mayor cantidad de productos a la que se encuentran en el carrito!' });
 
             }
             else {
