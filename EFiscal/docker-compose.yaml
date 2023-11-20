@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: server-postgres
+    image: 'postgres:latest'
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:    
+      POSTGRES_DB: avance_db
+      POSTGRES_USER: avance_user
+      POSTGRES_PASSWORD: avance_password
