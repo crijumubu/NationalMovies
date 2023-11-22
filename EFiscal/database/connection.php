@@ -1,6 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/../config/path.php");
+include_once(__DIR__ . "/../config/config.php");
 require (ROOT_PATH . '/vendor/autoload.php');
 
 $dotenv = Dotenv\Dotenv::createImmutable(ROOT_PATH);

@@ -3,26 +3,27 @@
 include_once(__DIR__ . "/../config/config.php");
 include_once(ROOT_PATH . "/database/connection.php");
 
-class Guardar {
+class Editar {
     
     private $conexion;
     
     function __construct() {
-        
         $database = new Connection();
         $this->conexion = $database->conexion();
     }
 
-    public function insertarDocumento() {
+    public function EditarDocumento() {
         
-        if (isset($_POST['creardocumento'])) {
-            
-            $status = true;
-            
+        $status = true;
+
+        if (isset($_POST['actualizardocumento'])) {
+
+
             try{
                 
-                $sql = "INSERT INTO documento (idnumeracion, idestado, numero, fecha, base, impuestos) VALUES (:idnumeracion, :idestado, :numero, :fecha, :base, :impuestos)";
+                $sql = "UPDATE documento SET idnumeracion = :idnumeracion, idestado = :idestado, numero = :numero , fecha = :fecha, base = :base, impuestos = :impuestos WHERE iddocumento = :iddocumento";
                 $stmt = $this->conexion->prepare($sql);
+                $stmt->bindParam(':iddocumento', $_GET['iddocumento']);
                 $stmt->bindParam(':idnumeracion', $_POST['idnumeracion']);
                 $stmt->bindParam(':idestado', $_POST['idestado']);
                 $stmt->bindParam(':numero', $_POST['numero']);
@@ -30,27 +31,28 @@ class Guardar {
                 $stmt->bindParam(':base', $_POST['base']);
                 $stmt->bindParam(':impuestos', $_POST['impuestos']);
                 $stmt->execute();
-                
-                $_SESSION['mensaje'] = "Documento guardado satisfactoriamente!";
-                $_SESSION['tipomensaje'] = "success";
+
+                $_SESSION['mensaje'] = "Documento editado satisfactoriamente!";
+                $_SESSION['tipomensaje'] = "dark";
 
                 header("Location: ../index.php");
+       
             }
             catch (PDOException){
                 
                 $status = false;
             }
             finally {
-                
+                    
                 $stmt = null;
                 $this->conexion = null;
-                
+    
                 return $status;
-            }
+            }      
         }
     }
 }
 
-$controlador = new Guardar();
-$controlador->insertarDocumento();
+$controlador = new Editar();
+$controlador->EditarDocumento();
 ?>

@@ -1,5 +1,7 @@
 --  LISTAR LAS EMPRESAS QUE TIENEN MÁS DOCUMENTOS FALLIDOS QUE EXITOSOS --
 
+sql = "SELECT COUNT(*), * FROM documento WHERE iddocumento = 18;";
+
 SELECT empresa.razonsocial AS "Empresa", count(estado.idestado) AS "Total documentos fallidos" FROM empresa
 JOIN numeracion ON empresa.idempresa = numeracion.idempresa
 JOIN documento ON numeracion.idnumeracion = documento.idnumeracion
